@@ -1,399 +1,567 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>The Birthday Vault</title>
-    <style>
-      :root {
-        --bg: #0f1020;
-        --card: rgba(255, 255, 255, 0.08);
-        --card-strong: rgba(255, 255, 255, 0.14);
-        --text: #f8f4ff;
-        --muted: #c8bfdc;
-        --accent: #ff7eb6;
-        --accent-2: #8a7dff;
-        --glow: rgba(255, 126, 182, 0.35);
-      }
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Something made only for you 🌸</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #fdf6ee;
+    --rose: #e8a89c;
+    --blush: #f3d0c8;
+    --deep: #3d2b2b;
+    --muted: #8a6e6e;
+    --gold: #c9a96e;
+    --petal: #f9e8e3;
+    --dark: #1a0f0f;
+  }
 
-      * {
-        box-sizing: border-box;
-      }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; overflow: hidden; }
 
-      html {
-        scroll-behavior: smooth;
-      }
+  body {
+    background: var(--cream);
+    color: var(--deep);
+    font-family: 'DM Sans', sans-serif;
+  }
 
-      body {
-        margin: 0;
-        min-height: 100vh;
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        color: var(--text);
-        background:
-          radial-gradient(circle at top, rgba(138, 125, 255, 0.22), transparent 28%),
-          radial-gradient(circle at bottom right, rgba(255, 126, 182, 0.18), transparent 30%),
-          linear-gradient(160deg, #090b13 0%, #101426 45%, #140f1f 100%);
-        overflow-x: hidden;
-      }
+  /* ── PARTICLES ── */
+  #particles {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .petal {
+    position: absolute;
+    border-radius: 50% 0 50% 0;
+    opacity: 0;
+    animation: fall linear infinite;
+  }
+  @keyframes fall {
+    0%   { transform: translateY(-20px) rotate(0deg); opacity: 0.7; }
+    100% { transform: translateY(110vh) rotate(400deg); opacity: 0; }
+  }
 
-      body::before {
-        content: "";
-        position: fixed;
-        inset: 0;
-        pointer-events: none;
-        background-image:
-          radial-gradient(2px 2px at 20% 30%, rgba(255,255,255,0.7), transparent),
-          radial-gradient(2px 2px at 80% 20%, rgba(255,255,255,0.55), transparent),
-          radial-gradient(1px 1px at 60% 70%, rgba(255,255,255,0.5), transparent),
-          radial-gradient(1px 1px at 35% 80%, rgba(255,255,255,0.55), transparent);
-        opacity: 0.5;
-      }
+  /* ── PAGE SYSTEM ── */
+  .page {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem 2rem 5rem;
+    z-index: 10;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.75s ease, transform 0.75s ease;
+    transform: translateY(28px);
+    overflow-y: auto;
+  }
+  .page.active {
+    opacity: 1;
+    pointer-events: all;
+    transform: translateY(0);
+  }
+  .page.exit {
+    opacity: 0;
+    transform: translateY(-28px);
+    pointer-events: none;
+  }
 
-      .lock-screen,
-      .vault {
-        width: min(1100px, calc(100% - 2rem));
-        margin: 0 auto;
-      }
+  /* ── BACKGROUNDS ── */
+  #p-timer { background: radial-gradient(ellipse at 50% 40%, #fce0d5 0%, var(--cream) 70%); }
+  #p-lock  { background: radial-gradient(ellipse at 60% 40%, #f9e0d9 0%, var(--cream) 70%); }
+  #p-s1    { background: linear-gradient(155deg, var(--cream) 0%, #fce9e1 100%); }
+  #p-s2    { background: linear-gradient(155deg, #261010 0%, var(--dark) 100%); }
+  #p-s3    { background: linear-gradient(155deg, #fdf0ea 0%, var(--cream) 100%); }
+  #p-s4    { background: radial-gradient(ellipse at center, #3d2020 0%, var(--dark) 100%); }
 
-      .lock-screen {
-        min-height: 100vh;
-        display: grid;
-        place-items: center;
-        text-align: center;
-        padding: 2rem 0;
-      }
+  /* ── FLOAT ICON ── */
+  .float-icon {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+    animation: floatY 3s ease-in-out infinite;
+  }
+  @keyframes floatY { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
 
-      .lock-card,
-      .section,
-      .surprise-panel {
-        backdrop-filter: blur(18px);
-        background: var(--card);
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        box-shadow: 0 18px 60px rgba(0, 0, 0, 0.35);
-      }
+  /* ── TYPOGRAPHY ── */
+  .page-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--rose);
+    margin-bottom: 1.1rem;
+  }
+  .page-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.8rem, 5.5vw, 3.2rem);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.3;
+    color: var(--deep);
+    margin-bottom: 1.4rem;
+    max-width: 560px;
+  }
+  .dark-page .page-title { color: var(--blush); }
 
-      .lock-card {
-        width: min(720px, 100%);
-        border-radius: 28px;
-        padding: 3rem 2rem;
-      }
+  .page-body {
+    font-size: clamp(0.92rem, 2.4vw, 1.1rem);
+    color: var(--muted);
+    line-height: 2;
+    max-width: 500px;
+    font-weight: 300;
+  }
+  .dark-page .page-body { color: #c9b0b0; }
+  .page-body em {
+    font-style: italic;
+    color: var(--deep);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15em;
+  }
+  .dark-page .page-body em { color: var(--blush); }
 
-      .eyebrow {
-        display: inline-block;
-        padding: 0.45rem 0.85rem;
-        border-radius: 999px;
-        background: rgba(255, 255, 255, 0.09);
-        color: #ffd9ea;
-        font-size: 0.9rem;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-      }
+  /* ── DIVIDER ── */
+  .divider {
+    display: flex; align-items: center; gap: 1rem;
+    margin: 1.6rem 0;
+  }
+  .divider-line { width: 55px; height: 1px; background: var(--blush); opacity: 0.55; }
+  .divider-icon { color: var(--rose); font-size: 0.85rem; }
 
-      h1,
-      h2 {
-        margin: 0;
-        line-height: 1.1;
-      }
+  /* ── BUTTONS ── */
+  .btn-primary {
+    padding: 0.9rem 2.6rem;
+    background: var(--deep);
+    color: var(--cream);
+    border: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    border-radius: 100px;
+    transition: background 0.35s, color 0.35s;
+    margin-top: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-primary:hover { background: var(--rose); color: white; }
 
-      .lock-card h1 {
-        margin-top: 1.2rem;
-        font-size: clamp(2.2rem, 5vw, 4.2rem);
-      }
+  .btn-next {
+    padding: 0.85rem 2.4rem;
+    background: transparent;
+    border: 1.5px solid var(--rose);
+    color: var(--deep);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    border-radius: 100px;
+    transition: all 0.3s ease;
+    margin-top: 2rem;
+  }
+  .btn-next:hover { background: var(--rose); color: white; }
+  .dark-page .btn-next { color: var(--blush); }
 
-      .subtitle,
-      .section p,
-      .video-script li,
-      .video-note {
-        color: var(--muted);
-        line-height: 1.8;
-        font-size: 1.05rem;
-      }
+  /* ── COUNTDOWN ── */
+  .timer-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1.1rem, 3vw, 1.4rem);
+    color: var(--muted);
+    margin-bottom: 1.8rem;
+  }
+  #timer-wrap {
+    display: flex;
+    gap: clamp(0.7rem, 3vw, 1.8rem);
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 0.5rem;
+  }
+  .timer-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .timer-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 9vw, 5.5rem);
+    font-weight: 300;
+    color: var(--deep);
+    line-height: 1;
+    min-width: 2ch;
+    text-align: center;
+    position: relative;
+  }
+  .timer-num::after {
+    content:'';
+    position:absolute;
+    bottom:-3px; left:8%; right:8%;
+    height:1px; background:var(--rose); opacity:0.35;
+  }
+  .timer-lbl {
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 0.7rem;
+  }
+  .timer-colon {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.2rem, 6vw, 3.8rem);
+    color: var(--rose);
+    opacity: 0.45;
+    padding-top: 0.1rem;
+    animation: blink 1s ease-in-out infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:0.45} 50%{opacity:0.12} }
 
-      .subtitle {
-        max-width: 48rem;
-        margin: 1.2rem auto 0;
-      }
+  .date-badge {
+    display: inline-block;
+    margin-top: 1.5rem;
+    padding: 0.4rem 1.2rem;
+    border: 1px solid rgba(232,168,156,0.35);
+    border-radius: 100px;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
 
-      .button {
-        border: 0;
-        cursor: pointer;
-        border-radius: 999px;
-        color: #fff;
-        font-size: 1rem;
-        font-weight: 600;
-        padding: 1rem 1.5rem;
-        margin-top: 1.75rem;
-        background: linear-gradient(135deg, var(--accent), var(--accent-2));
-        box-shadow: 0 10px 30px var(--glow);
-        transition: transform 0.25s ease, box-shadow 0.25s ease;
-      }
+  /* birthday mode */
+  .birthday-msg {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 7vw, 3.5rem);
+    font-style: italic;
+    color: var(--rose);
+    animation: pulse 2s ease-in-out infinite;
+    margin: 1rem 0;
+  }
+  @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.04)} }
 
-      .button:hover {
-        transform: translateY(-2px) scale(1.01);
-        box-shadow: 0 16px 38px rgba(138, 125, 255, 0.35);
-      }
+  /* ── NOTICE CARDS ── */
+  .notice-list {
+    display: flex; flex-direction: column; gap: 0.9rem;
+    margin: 1.4rem 0; max-width: 460px; width: 100%;
+  }
+  .notice-item {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(232,168,156,0.2);
+    border-radius: 12px;
+    padding: 0.85rem 1.4rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.08rem;
+    color: #c9b0b0;
+    line-height: 1.6;
+    text-align: left;
+    position: relative;
+  }
+  .notice-item::before {
+    content:'';
+    position:absolute;
+    left:0; top:15%; bottom:15%;
+    width:3px; background:var(--rose); border-radius:2px;
+  }
 
-      .vault {
-        display: none;
-        padding: 5rem 0 4rem;
-      }
+  /* ── STEP DOTS ── */
+  #step-dots {
+    position: fixed;
+    bottom: 1.6rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex; gap: 0.48rem;
+    z-index: 20;
+  }
+  .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--blush);
+    opacity: 0.28;
+    transition: all 0.3s ease;
+  }
+  .dot.active { opacity: 1; background: var(--rose); transform: scale(1.35); }
 
-      .vault.unlocked {
-        display: block;
-        animation: fadeUp 0.8s ease;
-      }
+  /* ── VIDEO MODAL ── */
+  #video-modal {
+    display: none;
+    position: fixed; inset: 0; z-index: 100;
+    background: rgba(10,3,3,0.96);
+    align-items: center; justify-content: center;
+    flex-direction: column; padding: 2rem;
+  }
+  #video-modal.open { display: flex; animation: fadeUp 0.5s ease; }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+  .modal-close {
+    position: absolute; top: 1.5rem; right: 1.5rem;
+    background: none; border: none; color: var(--muted);
+    font-size: 1.6rem; cursor: pointer; transition: color 0.2s; line-height:1;
+  }
+  .modal-close:hover { color: var(--rose); }
+  .video-frame {
+    width:100%; max-width:720px; aspect-ratio:16/9;
+    background:#1a0a0a; border-radius:16px; overflow:hidden;
+    border:1px solid rgba(232,168,156,0.16);
+    display:flex; align-items:center; justify-content:center;
+    flex-direction:column; gap:0.8rem;
+    color:var(--muted); font-family:'Cormorant Garamond',serif;
+    font-style:italic; font-size:1.2rem; text-align:center; padding:2rem;
+  }
+  .video-note {
+    margin-top:1.2rem; font-size:0.7rem; color:#5a3a3a;
+    letter-spacing:0.12em; text-transform:uppercase; text-align:center;
+  }
 
-      .hero {
-        text-align: center;
-        margin-bottom: 2rem;
-      }
+  /* ── CONFETTI ── */
+  .conf {
+    position:fixed; pointer-events:none; z-index:200;
+    animation: confettiFall 2.8s ease-in forwards;
+  }
+  @keyframes confettiFall {
+    0%   { transform:translateY(-10px) rotate(0deg); opacity:1; }
+    100% { transform:translateY(100vh) rotate(720deg); opacity:0; }
+  }
+</style>
+</head>
+<body>
 
-      .hero h2 {
-        font-size: clamp(2rem, 4vw, 3.6rem);
-        margin-top: 1rem;
-      }
+<div id="particles"></div>
 
-      .sections {
-        display: grid;
-        gap: 1.25rem;
-      }
+<div id="step-dots">
+  <div class="dot active" id="dot0"></div>
+  <div class="dot" id="dot1"></div>
+  <div class="dot" id="dot2"></div>
+  <div class="dot" id="dot3"></div>
+  <div class="dot" id="dot4"></div>
+  <div class="dot" id="dot5"></div>
+</div>
 
-      .section {
-        border-radius: 24px;
-        padding: 2rem;
-        position: relative;
-        overflow: hidden;
-      }
+<div class="page active" id="p-timer">
+  <div class="float-icon">🌸</div>
+  <div id="timer-area"></div>
+  <div class="date-badge">April 9 · Her Special Day 🎂</div>
+  <button class="btn-primary" id="timer-open-btn" style="display:none" onclick="goTo(1)">
+    Open your birthday 🎂
+  </button>
+</div>
 
-      .section::after {
-        content: "";
-        position: absolute;
-        width: 240px;
-        height: 240px;
-        right: -80px;
-        top: -120px;
-        background: radial-gradient(circle, rgba(255,255,255,0.12), transparent 65%);
-      }
+<div class="page" id="p-lock">
+  <div class="float-icon">🎂</div>
+  <h1 class="page-title">
+    This is not just a page…<br>
+    <span style="color:var(--rose)">this is something I made only for you.</span>
+  </h1>
+  <div class="divider">
+    <div class="divider-line"></div>
+    <span class="divider-icon">✦</span>
+    <div class="divider-line"></div>
+  </div>
+  <p style="font-size:0.76rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--muted)">
+    A small world, built just for you
+  </p>
+  <button class="btn-primary" onclick="goTo(2)"><span>Begin ✨</span></button>
+</div>
 
-      .section h3 {
-        margin: 0 0 0.8rem;
-        font-size: 1.55rem;
-      }
+<div class="page" id="p-s1">
+  <p class="page-label">The Beginning</p>
+  <h2 class="page-title">Out of all the random<br>moments life could create…</h2>
+  <div class="page-body">
+    <em>it chose you to walk into mine.</em><br><br>
+    And somehow, things started feeling<br>lighter, calmer… better.
+  </div>
+  <div class="divider">
+    <div class="divider-line"></div>
+    <span class="divider-icon">🌷</span>
+    <div class="divider-line"></div>
+  </div>
+  <button class="btn-next" onclick="goTo(3)">Next →</button>
+</div>
 
-      .section-number {
-        display: inline-flex;
-        width: 2.25rem;
-        height: 2.25rem;
-        border-radius: 50%;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 1rem;
-        background: var(--card-strong);
-        color: #ffe2ef;
-        font-weight: 700;
-      }
+<div class="page dark-page" id="p-s2">
+  <p class="page-label">Little Things I Notice</p>
+  <h2 class="page-title">More than you think…</h2>
+  <div class="notice-list">
+    <div class="notice-item">The way you smile without realizing it…</div>
+    <div class="notice-item">The way your voice changes when you're happy…</div>
+    <div class="notice-item">The comfort I feel just talking to you…</div>
+    <div class="notice-item">I notice all of it… more than you think.</div>
+  </div>
+  <button class="btn-next" onclick="goTo(4)">Next →</button>
+</div>
 
-      .surprise-panel {
-        margin-top: 1.25rem;
-        border-radius: 28px;
-        padding: 2rem;
-      }
+<div class="page" id="p-s3">
+  <p class="page-label">What You Mean To Me</p>
+  <h2 class="page-title">You're not just a friend…</h2>
+  <div class="page-body">
+    You're that rare kind of person who makes<br>
+    <em>everything feel right without trying.</em><br><br>
+    And honestly…<br>that's something I never want to lose.
+  </div>
+  <div class="divider">
+    <div class="divider-line"></div>
+    <span class="divider-icon">🌸</span>
+    <div class="divider-line"></div>
+  </div>
+  <button class="btn-next" onclick="goTo(5)">Next →</button>
+</div>
 
-      .reveal-area {
-        display: none;
-        margin-top: 1.5rem;
-        gap: 1.25rem;
-      }
+<div class="page dark-page" id="p-s4">
+  <p class="page-label">Your Birthday Surprise</p>
+  <h2 class="page-title">One last thing<br>made for you…</h2>
+  <div class="page-body">
+    Something I put together,<br>
+    <em>just to show you what you mean.</em>
+  </div>
+  <button class="btn-next" onclick="openVideo()" style="margin-top:2rem">
+    Open the final memory 💫
+  </button>
+</div>
 
-      .reveal-area.visible {
-        display: grid;
-      }
+<div id="video-modal">
+  <button class="modal-close" onclick="closeVideo()">✕</button>
+  <div class="video-frame" id="videoFrame">
+    <div style="font-size:3rem">🎬</div>
+    <p>Your video will play here…</p>
+    <p style="font-size:0.82rem;color:#6a4a4a;margin-top:0.4rem">Paste your &lt;video&gt; or &lt;iframe&gt; embed inside #videoFrame</p>
+  </div>
+  <p class="video-note">↑ Add your video inside the #videoFrame div ↑</p>
+</div>
 
-      .video-frame {
-        width: 100%;
-        min-height: 320px;
-        border-radius: 20px;
-        border: 1px solid rgba(255,255,255,0.12);
-        background:
-          linear-gradient(rgba(10, 12, 23, 0.55), rgba(10, 12, 23, 0.85)),
-          url('https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=1200&q=80') center/cover;
-        display: grid;
-        place-items: center;
-        text-align: center;
-        padding: 2rem;
-      }
+<script>
+const pc = document.getElementById('particles');
+for (let i = 0; i < 22; i++) {
+  const p = document.createElement('div');
+  p.className = 'petal';
+  const sz = 4 + Math.random() * 9;
+  p.style.cssText = `left:${Math.random()*100}%;width:${sz}px;height:${sz}px;
+    animation-duration:${7+Math.random()*11}s;animation-delay:${Math.random()*10}s;
+    background:${['#f3d0c8','#e8a89c','#f9e8e3','#fce0d8','#f7c8be'][Math.floor(Math.random()*5)]};`;
+  pc.appendChild(p);
+}
 
-      .video-frame strong {
-        display: block;
-        font-size: 1.4rem;
-      }
+const PAGES = ['p-timer','p-lock','p-s1','p-s2','p-s3','p-s4'];
+let current = 0;
 
-      .video-script {
-        margin: 0;
-        padding-left: 1.1rem;
-      }
+function goTo(n) {
+  const from = document.getElementById(PAGES[current]);
+  from.classList.add('exit');
+  from.classList.remove('active');
+  setTimeout(() => from.classList.remove('exit'), 800);
+  current = n;
+  document.getElementById(PAGES[n]).classList.add('active');
+  document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === n));
+  if (n === 1) setTimeout(launchConfetti, 300);
+}
 
-      .video-script li + li {
-        margin-top: 0.7rem;
-      }
+function pad(v) { return String(v).padStart(2, '0'); }
 
-      .final-message {
-        margin-top: 2rem;
-        text-align: center;
-        padding: 2rem 1rem 0;
-      }
+function isBirthday() {
+  return true; // PREVIEW MODE — change back to: return d.getMonth()===3 && d.getDate()===9;
+}
 
-      .final-message blockquote {
-        margin: 1rem auto 0;
-        max-width: 44rem;
-        font-size: 1.2rem;
-        line-height: 1.8;
-        color: #ffe6f1;
-      }
+function getTarget() {
+  const now = new Date();
+  const y = now.getFullYear();
+  let t = new Date(y, 3, 9, 0, 0, 0);
+  if (now >= t) t = new Date(y + 1, 3, 9, 0, 0, 0);
+  return t;
+}
 
-      @keyframes fadeUp {
-        from {
-          opacity: 0;
-          transform: translateY(16px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
+function renderCountdown() {
+  const area = document.getElementById('timer-area');
+  const btn = document.getElementById('timer-open-btn');
 
-      @media (max-width: 640px) {
-        .lock-card,
-        .section,
-        .surprise-panel {
-          padding: 1.5rem;
-        }
+  if (isBirthday()) {
+    area.innerHTML = `
+      <div class="birthday-msg">🎂 Happy Birthday! 🎂</div>
+      <p style="font-family:'Cormorant Garamond',serif;font-style:italic;
+                font-size:1.15rem;color:var(--muted);margin:0.5rem 0 1rem">
+        Today is your special day…
+      </p>`;
+    btn.style.display = 'inline-block';
+    clearInterval(ticker);
+    return;
+  }
 
-        .video-frame {
-          min-height: 240px;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <main>
-      <section class="lock-screen" id="top">
-        <div class="lock-card">
-          <span class="eyebrow">The Birthday Vault</span>
-          <h1>This is not just a page… this is something I made only for you.</h1>
-          <button class="button" id="unlockButton">Open on your birthday 🎂</button>
-        </div>
-      </section>
+  const diff = getTarget() - new Date();
+  const days = Math.floor(diff / 86400000);
+  const hours = Math.floor((diff % 86400000) / 3600000);
+  const mins = Math.floor((diff % 3600000) / 60000);
+  const secs = Math.floor((diff % 60000) / 1000);
 
-      <section class="vault" id="vault">
-        <header class="hero">
-          <span class="eyebrow">Unlocked with love</span>
-          <h2>Welcome to your secret little corner of the internet.</h2>
-          <p class="subtitle">
-            Every part of this was designed to feel less like a website and more like a memory
-            you can walk through.
-          </p>
-        </header>
+  area.innerHTML = `
+    <p class="timer-heading">Her birthday is coming…</p>
+    <div id="timer-wrap">
+      <div class="timer-unit">
+        <div class="timer-num" id="td">${pad(days)}</div>
+        <div class="timer-lbl">Days</div>
+      </div>
+      <div class="timer-colon">:</div>
+      <div class="timer-unit">
+        <div class="timer-num" id="th">${pad(hours)}</div>
+        <div class="timer-lbl">Hours</div>
+      </div>
+      <div class="timer-colon">:</div>
+      <div class="timer-unit">
+        <div class="timer-num" id="tm">${pad(mins)}</div>
+        <div class="timer-lbl">Mins</div>
+      </div>
+      <div class="timer-colon">:</div>
+      <div class="timer-unit">
+        <div class="timer-num" id="ts">${pad(secs)}</div>
+        <div class="timer-lbl">Secs</div>
+      </div>
+    </div>`;
+  btn.style.display = 'none';
+}
 
-        <div class="sections">
-          <article class="section">
-            <div class="section-number">1</div>
-            <h3>The Beginning</h3>
-            <p>
-              Out of all the random moments life could have created… it chose you to walk into
-              mine. And somehow, things started feeling lighter, calmer… better.
-            </p>
-          </article>
+function tickCountdown() {
+  if (isBirthday()) {
+    renderCountdown();
+    return;
+  }
+  const diff = getTarget() - new Date();
+  const set = (id, v) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = pad(v);
+  };
+  set('td', Math.floor(diff / 86400000));
+  set('th', Math.floor((diff % 86400000) / 3600000));
+  set('tm', Math.floor((diff % 3600000) / 60000));
+  set('ts', Math.floor((diff % 60000) / 1000));
+}
 
-          <article class="section">
-            <div class="section-number">2</div>
-            <h3>Little Things I Notice</h3>
-            <p>
-              The way you smile without realizing it… The way your voice changes when you’re
-              happy… The comfort I feel just talking to you… I notice all of it… more than you
-              think.
-            </p>
-          </article>
+renderCountdown();
+const ticker = setInterval(tickCountdown, 1000);
 
-          <article class="section">
-            <div class="section-number">3</div>
-            <h3>What You Mean To Me</h3>
-            <p>
-              You’re not just a friend… You’re that rare kind of person who makes everything feel
-              right without trying. And honestly… that’s something I never want to lose.
-            </p>
-          </article>
-        </div>
+function launchConfetti() {
+  const em = ['🌸','✨','🎂','💕','🌷','🎉','💖','🎀'];
+  for (let i = 0; i < 26; i++) {
+    const c = document.createElement('div');
+    c.className = 'conf';
+    c.textContent = em[Math.floor(Math.random() * em.length)];
+    c.style.cssText = `left:${Math.random()*100}%;top:-10px;
+      animation-delay:${Math.random()*1.2}s;
+      animation-duration:${2.2+Math.random()*1.6}s;
+      font-size:${1+Math.random()*1.1}rem;`;
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 4500);
+  }
+}
 
-        <section class="surprise-panel">
-          <div class="section-number">4</div>
-          <h3>Your Birthday Surprise</h3>
-          <p class="video-note">
-            One last memory waits here. Tap the button when you’re ready for the final little
-            moment.
-          </p>
-          <button class="button" id="revealButton">Open the final memory 💫</button>
-
-          <div class="reveal-area" id="revealArea">
-            <div class="video-frame">
-              <div>
-                <strong>🎥 Add your final birthday video here</strong>
-                <p class="video-note">
-                  Replace this panel with an embedded video or local clip to complete the surprise.
-                </p>
-              </div>
-            </div>
-
-            <div>
-              <h3>Suggested 30–40 second video flow</h3>
-              <ol class="video-script">
-                <li><strong>[0–3 sec]</strong> “Hey… this is for you ❤️”</li>
-                <li>
-                  <strong>[3–10 sec]</strong> Photos or clips with slow zoom + “Some people come
-                  into life… and change everything without even trying.”
-                </li>
-                <li><strong>[10–20 sec]</strong> “You’re one of those people for me.”</li>
-                <li>
-                  <strong>[20–30 sec]</strong> Best smiling clips + “Every moment with you… is
-                  something I silently value.”
-                </li>
-                <li>
-                  <strong>[30–40 sec]</strong> Final black frame + “Happy Birthday [Her Name] 🎂
-                  Stay the way you are… because that’s exactly why you’re special.”
-                </li>
-              </ol>
-              <p class="video-note">
-                Music idea: a soft emotional Tamil or English lo-fi melody under the whole clip.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <section class="final-message">
-          <span class="eyebrow">One last thing</span>
-          <blockquote>
-            Happy Birthday. I hope this made you smile, even a little. No matter how many moments
-            pass, I’ll always be grateful that life decided to let our paths meet.
-          </blockquote>
-        </section>
-      </section>
-    </main>
-
-    <script>
-      const unlockButton = document.getElementById('unlockButton');
-      const revealButton = document.getElementById('revealButton');
-      const vault = document.getElementById('vault');
-      const revealArea = document.getElementById('revealArea');
-
-      unlockButton.addEventListener('click', () => {
-        vault.classList.add('unlocked');
-        vault.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      });
-
-      revealButton.addEventListener('click', () => {
-        revealArea.classList.add('visible');
-        revealArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      });
-    </script>
-  </body>
+function openVideo() {
+  document.getElementById('video-modal').classList.add('open');
+}
+function closeVideo() {
+  document.getElementById('video-modal').classList.remove('open');
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeVideo();
+});
+</script>
+</body>
 </html>
