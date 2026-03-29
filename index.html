@@ -80,6 +80,7 @@
   #p-s2    { background: linear-gradient(155deg, #261010 0%, var(--dark) 100%); }
   #p-s3    { background: linear-gradient(155deg, #fdf0ea 0%, var(--cream) 100%); }
   #p-s4    { background: radial-gradient(ellipse at center, #3d2020 0%, var(--dark) 100%); }
+  #p-s5    { background: linear-gradient(155deg, #fdf0ea 0%, var(--cream) 100%); }
 
   .page::after {
     content: '';
@@ -363,9 +364,9 @@
 
   /* ── PHOTO GALLERY ── */
   .memory-grid {
-    width: min(900px, 92vw);
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    width: min(660px, 92vw);
+    display: flex;
+    flex-direction: column;
     gap: 1rem;
     margin: 1.6rem 0 0.8rem;
   }
@@ -373,12 +374,16 @@
     position: relative;
     border-radius: 18px;
     overflow: hidden;
-    min-height: 220px;
+    min-height: 200px;
     border: 1px solid rgba(232,168,156,0.35);
     transform: perspective(900px) rotateX(0deg) rotateY(0deg);
     transition: transform 0.42s ease, box-shadow 0.42s ease, border-color 0.42s ease;
     box-shadow: 0 16px 35px rgba(0,0,0,0.25);
   }
+  .memory-card:nth-child(1) { margin-top: 0; }
+  .memory-card:nth-child(2) { margin-top: 0.55rem; }
+  .memory-card:nth-child(3) { margin-top: 0.55rem; }
+  .memory-card:nth-child(4) { margin-top: 0.55rem; }
   .memory-card img {
     width: 100%;
     height: 100%;
@@ -413,22 +418,7 @@
     opacity: 1;
   }
 
-  /* ── VIDEO MODAL ── */
-  #video-modal {
-    display: none;
-    position: fixed; inset: 0; z-index: 100;
-    background: rgba(10,3,3,0.96);
-    align-items: center; justify-content: center;
-    flex-direction: column; padding: 2rem;
-  }
-  #video-modal.open { display: flex; animation: fadeUp 0.5s ease; }
-  @keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
-  .modal-close {
-    position: absolute; top: 1.5rem; right: 1.5rem;
-    background: none; border: none; color: var(--muted);
-    font-size: 1.6rem; cursor: pointer; transition: color 0.2s; line-height:1;
-  }
-  .modal-close:hover { color: var(--rose); }
+  /* ── VIDEO SECTION ── */
   .video-frame {
     width:100%;
     max-width:760px;
@@ -511,6 +501,7 @@
   <div class="dot" id="dot3"></div>
   <div class="dot" id="dot4"></div>
   <div class="dot" id="dot5"></div>
+  <div class="dot" id="dot6"></div>
 </div>
 
 <div class="page active" id="p-timer">
@@ -583,38 +574,13 @@
 </div>
 
 <div class="page dark-page" id="p-s4">
-  <p class="page-label">Your Birthday Surprise</p>
-  <h2 class="page-title">One last thing<br>made for you…</h2>
+  <p class="page-label">Cake Cutting Memory</p>
+  <h2 class="page-title">First, your cake cutting<br>video moment 🎂</h2>
   <div class="page-body">
-    A final wall of memories,<br>
-    <em>with your photos and songs in one place.</em>
+    Let this play first before everything else,<br>
+    <em>because birthdays begin with cake and smiles.</em>
   </div>
-  <div class="memory-grid">
-    <div class="memory-card">
-      <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=900&q=80" alt="Golden smile portrait">
-      <div class="memory-overlay">Your smile glow ✨</div>
-    </div>
-    <div class="memory-card">
-      <img src="https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?auto=format&fit=crop&w=900&q=80" alt="Warm candid portrait">
-      <div class="memory-overlay">Little candid moments 🌷</div>
-    </div>
-    <div class="memory-card">
-      <img src="https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?auto=format&fit=crop&w=900&q=80" alt="Happy laughter shot">
-      <div class="memory-overlay">Laughter snapshot 💖</div>
-    </div>
-    <div class="memory-card">
-      <img src="https://images.unsplash.com/photo-1464863979621-258859e62245?auto=format&fit=crop&w=900&q=80" alt="Elegant style portrait">
-      <div class="memory-overlay">Forever iconic 🎀</div>
-    </div>
-  </div>
-  <button class="btn-next" onclick="openVideo()" style="margin-top:2rem">
-    Open the final video room 💫
-  </button>
-</div>
-
-<div id="video-modal">
-  <button class="modal-close" onclick="closeVideo()">✕</button>
-  <div class="video-frame" id="videoFrame">
+  <div class="video-frame">
     <div class="video-grid">
       <div class="video-card">
         <video
@@ -623,12 +589,40 @@
           poster="https://images.pexels.com/videos/855564/pexels-photo-855564.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
           src="https://videos.pexels.com/video-files/855564/855564-hd_1920_1080_24fps.mp4"
         ></video>
-        <div class="video-overlay">A calm natural scene 🌿</div>
+        <div class="video-overlay">Cake cutting vibe and celebration lights 🎉</div>
       </div>
     </div>
   </div>
-  <p class="video-note">Just one peaceful nature video, only for this final page</p>
-  <button class="btn-next" onclick="closeVideo()">← Previous page</button>
+  <p class="video-note">Watch this first, then move to the final photos page</p>
+  <button class="btn-next" onclick="goTo(6)">Next → Final photos</button>
+</div>
+
+<div class="page" id="p-s5">
+  <p class="page-label">Final Photo Page</p>
+  <h2 class="page-title">And here comes your<br>birthday photos, one by one ✨</h2>
+  <div class="page-body">
+    Every picture is stacked gently below the previous one,<br>
+    <em>hover each one and relive the memory.</em>
+  </div>
+  <div class="memory-grid">
+    <div class="memory-card">
+      <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=900&q=80" alt="Golden smile portrait">
+      <div class="memory-overlay">Photo 1 · Your smile glow ✨</div>
+    </div>
+    <div class="memory-card">
+      <img src="https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?auto=format&fit=crop&w=900&q=80" alt="Warm candid portrait">
+      <div class="memory-overlay">Photo 2 · Little candid moments 🌷</div>
+    </div>
+    <div class="memory-card">
+      <img src="https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?auto=format&fit=crop&w=900&q=80" alt="Happy laughter shot">
+      <div class="memory-overlay">Photo 3 · Laughter snapshot 💖</div>
+    </div>
+    <div class="memory-card">
+      <img src="https://images.unsplash.com/photo-1464863979621-258859e62245?auto=format&fit=crop&w=900&q=80" alt="Elegant style portrait">
+      <div class="memory-overlay">Photo 4 · Forever iconic 🎀</div>
+    </div>
+  </div>
+  <button class="btn-next" onclick="goTo(0)">Back to start ↺</button>
 </div>
 
 <script>
@@ -643,7 +637,7 @@ for (let i = 0; i < 22; i++) {
   pc.appendChild(p);
 }
 
-const PAGES = ['p-timer','p-lock','p-s1','p-s2','p-s3','p-s4'];
+const PAGES = ['p-timer','p-lock','p-s1','p-s2','p-s3','p-s4','p-s5'];
 let current = 0;
 
 function goTo(n) {
@@ -763,16 +757,6 @@ function launchConfetti() {
     setTimeout(() => c.remove(), 4500);
   }
 }
-
-function openVideo() {
-  document.getElementById('video-modal').classList.add('open');
-}
-function closeVideo() {
-  document.getElementById('video-modal').classList.remove('open');
-}
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closeVideo();
-});
 
 document.querySelectorAll('.page').forEach(page => {
   page.addEventListener('mousemove', e => {
