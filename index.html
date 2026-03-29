@@ -81,6 +81,22 @@
   #p-s3    { background: linear-gradient(155deg, #fdf0ea 0%, var(--cream) 100%); }
   #p-s4    { background: radial-gradient(ellipse at center, #3d2020 0%, var(--dark) 100%); }
 
+  .page::after {
+    content: '';
+    position: absolute;
+    inset: 12% 9%;
+    border-radius: 26px;
+    border: 1px solid rgba(232,168,156,0.15);
+    pointer-events: none;
+    transform: scale(0.98);
+    opacity: 0;
+    transition: opacity 0.45s ease, transform 0.45s ease;
+  }
+  .page.active:hover::after {
+    opacity: 1;
+    transform: scale(1);
+  }
+
   /* ── FLOAT ICON ── */
   .float-icon {
     font-size: 3rem;
@@ -106,6 +122,11 @@
     color: var(--deep);
     margin-bottom: 1.4rem;
     max-width: 560px;
+    transition: transform 0.35s ease, letter-spacing 0.35s ease;
+  }
+  .page.active:hover .page-title {
+    transform: translateY(-3px);
+    letter-spacing: 0.02em;
   }
   .dark-page .page-title { color: var(--blush); }
 
@@ -115,6 +136,11 @@
     line-height: 2;
     max-width: 500px;
     font-weight: 300;
+    transition: opacity 0.35s ease, transform 0.35s ease;
+  }
+  .page.active:hover .page-body {
+    opacity: 0.94;
+    transform: translateY(-2px);
   }
   .dark-page .page-body { color: #c9b0b0; }
   .page-body em {
@@ -150,6 +176,15 @@
     overflow: hidden;
   }
   .btn-primary:hover { background: var(--rose); color: white; }
+  .btn-primary::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    transform: translateX(-120%) skewX(-18deg);
+    background: linear-gradient(110deg, transparent 10%, rgba(255,255,255,0.35) 45%, transparent 80%);
+    transition: transform 0.55s ease;
+  }
+  .btn-primary:hover::before { transform: translateX(120%) skewX(-18deg); }
 
   .btn-next {
     padding: 0.85rem 2.4rem;
@@ -165,6 +200,10 @@
     margin-top: 2rem;
   }
   .btn-next:hover { background: var(--rose); color: white; }
+  .btn-next:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(232,168,156,0.28);
+  }
   .dark-page .btn-next { color: var(--blush); }
 
   /* ── COUNTDOWN ── */
@@ -260,6 +299,12 @@
     line-height: 1.6;
     text-align: left;
     position: relative;
+    transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+  }
+  .notice-item:hover {
+    transform: translateX(7px);
+    border-color: rgba(232,168,156,0.55);
+    background: rgba(255,255,255,0.07);
   }
   .notice-item::before {
     content:'';
@@ -286,6 +331,88 @@
   }
   .dot.active { opacity: 1; background: var(--rose); transform: scale(1.35); }
 
+  /* ── GLOBAL BACK BUTTON ── */
+  #back-btn {
+    position: fixed;
+    top: 1.1rem;
+    left: 1rem;
+    z-index: 40;
+    padding: 0.55rem 1rem;
+    border-radius: 999px;
+    border: 1px solid rgba(232,168,156,0.55);
+    background: rgba(22, 9, 9, 0.52);
+    color: #fbe7e2;
+    font-size: 0.72rem;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    cursor: pointer;
+    backdrop-filter: blur(6px);
+    transition: transform 0.28s ease, background 0.28s ease, opacity 0.28s ease;
+    opacity: 0;
+    pointer-events: none;
+  }
+  #back-btn.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  #back-btn:hover {
+    transform: translateY(-2px);
+    background: rgba(232,168,156,0.9);
+    color: #2a1717;
+  }
+
+  /* ── PHOTO GALLERY ── */
+  .memory-grid {
+    width: min(900px, 92vw);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    margin: 1.6rem 0 0.8rem;
+  }
+  .memory-card {
+    position: relative;
+    border-radius: 18px;
+    overflow: hidden;
+    min-height: 220px;
+    border: 1px solid rgba(232,168,156,0.35);
+    transform: perspective(900px) rotateX(0deg) rotateY(0deg);
+    transition: transform 0.42s ease, box-shadow 0.42s ease, border-color 0.42s ease;
+    box-shadow: 0 16px 35px rgba(0,0,0,0.25);
+  }
+  .memory-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease, filter 0.5s ease;
+    filter: saturate(0.92);
+  }
+  .memory-card .memory-overlay {
+    position: absolute;
+    inset: auto 0 0;
+    background: linear-gradient(to top, rgba(14,5,5,0.84), rgba(14,5,5,0.03));
+    color: #ffe9e5;
+    padding: 1rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transform: translateY(18px);
+    opacity: 0;
+    transition: transform 0.42s ease, opacity 0.42s ease;
+  }
+  .memory-card:hover {
+    transform: perspective(900px) rotateX(2deg) rotateY(-2deg) translateY(-8px);
+    box-shadow: 0 22px 42px rgba(0,0,0,0.4);
+    border-color: rgba(255,220,213,0.75);
+  }
+  .memory-card:hover img {
+    transform: scale(1.08);
+    filter: saturate(1.14) brightness(1.02);
+  }
+  .memory-card:hover .memory-overlay {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
   /* ── VIDEO MODAL ── */
   #video-modal {
     display: none;
@@ -303,13 +430,61 @@
   }
   .modal-close:hover { color: var(--rose); }
   .video-frame {
-    width:100%; max-width:720px; aspect-ratio:16/9;
-    background:#1a0a0a; border-radius:16px; overflow:hidden;
+    width:100%;
+    max-width:940px;
+    background:#1a0a0a;
+    border-radius:18px;
+    overflow:hidden;
     border:1px solid rgba(232,168,156,0.16);
-    display:flex; align-items:center; justify-content:center;
-    flex-direction:column; gap:0.8rem;
-    color:var(--muted); font-family:'Cormorant Garamond',serif;
-    font-style:italic; font-size:1.2rem; text-align:center; padding:2rem;
+    padding:1.2rem;
+  }
+  .video-grid {
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap:1rem;
+  }
+  .video-card {
+    position: relative;
+    aspect-ratio: 16/9;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid rgba(232,168,156,0.25);
+    transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+    background:#140808;
+  }
+  .video-card iframe {
+    width:100%;
+    height:100%;
+    border:0;
+    pointer-events:none;
+    filter: contrast(0.9) saturate(0.85);
+    transition: filter 0.35s ease, transform 0.35s ease;
+  }
+  .video-card .video-overlay {
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:flex-end;
+    justify-content:flex-start;
+    padding:0.8rem;
+    font-size:0.73rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:#ffe8e2;
+    background: linear-gradient(to top, rgba(5,2,2,0.82), rgba(5,2,2,0.06));
+    transition: opacity 0.35s ease;
+  }
+  .video-card:hover {
+    transform: translateY(-7px) scale(1.02);
+    border-color: rgba(255,226,218,0.65);
+    box-shadow: 0 18px 35px rgba(0,0,0,0.45);
+  }
+  .video-card:hover iframe {
+    filter: contrast(1) saturate(1);
+    transform: scale(1.03);
+  }
+  .video-card:hover .video-overlay {
+    opacity: 0.12;
   }
   .video-note {
     margin-top:1.2rem; font-size:0.7rem; color:#5a3a3a;
@@ -330,6 +505,8 @@
 <body>
 
 <div id="particles"></div>
+
+<button id="back-btn" onclick="goBack()">← Back</button>
 
 <div id="step-dots">
   <div class="dot active" id="dot0"></div>
@@ -413,22 +590,51 @@
   <p class="page-label">Your Birthday Surprise</p>
   <h2 class="page-title">One last thing<br>made for you…</h2>
   <div class="page-body">
-    Something I put together,<br>
-    <em>just to show you what you mean.</em>
+    A final wall of memories,<br>
+    <em>with your photos and songs in one place.</em>
+  </div>
+  <div class="memory-grid">
+    <div class="memory-card">
+      <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=900&q=80" alt="Golden smile portrait">
+      <div class="memory-overlay">Your smile glow ✨</div>
+    </div>
+    <div class="memory-card">
+      <img src="https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?auto=format&fit=crop&w=900&q=80" alt="Warm candid portrait">
+      <div class="memory-overlay">Little candid moments 🌷</div>
+    </div>
+    <div class="memory-card">
+      <img src="https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?auto=format&fit=crop&w=900&q=80" alt="Happy laughter shot">
+      <div class="memory-overlay">Laughter snapshot 💖</div>
+    </div>
+    <div class="memory-card">
+      <img src="https://images.unsplash.com/photo-1464863979621-258859e62245?auto=format&fit=crop&w=900&q=80" alt="Elegant style portrait">
+      <div class="memory-overlay">Forever iconic 🎀</div>
+    </div>
   </div>
   <button class="btn-next" onclick="openVideo()" style="margin-top:2rem">
-    Open the final memory 💫
+    Open the final video room 💫
   </button>
 </div>
 
 <div id="video-modal">
   <button class="modal-close" onclick="closeVideo()">✕</button>
   <div class="video-frame" id="videoFrame">
-    <div style="font-size:3rem">🎬</div>
-    <p>Your video will play here…</p>
-    <p style="font-size:0.82rem;color:#6a4a4a;margin-top:0.4rem">Paste your &lt;video&gt; or &lt;iframe&gt; embed inside #videoFrame</p>
+    <div class="video-grid">
+      <div class="video-card">
+        <iframe src="https://www.youtube.com/embed/2Vv-BfVoq4g?rel=0&modestbranding=1" title="Music video one" allowfullscreen loading="lazy"></iframe>
+        <div class="video-overlay">Hover spotlight · Perfect</div>
+      </div>
+      <div class="video-card">
+        <iframe src="https://www.youtube.com/embed/fRh_vgS2dFE?rel=0&modestbranding=1" title="Music video two" allowfullscreen loading="lazy"></iframe>
+        <div class="video-overlay">Hover spotlight · Sorry</div>
+      </div>
+      <div class="video-card">
+        <iframe src="https://www.youtube.com/embed/JGwWNGJdvx8?rel=0&modestbranding=1" title="Music video three" allowfullscreen loading="lazy"></iframe>
+        <div class="video-overlay">Hover spotlight · Shape of You</div>
+      </div>
+    </div>
   </div>
-  <p class="video-note">↑ Add your video inside the #videoFrame div ↑</p>
+  <p class="video-note">Hover on each video card for glow effect · click YouTube logo to open full video</p>
 </div>
 
 <script>
@@ -454,7 +660,17 @@ function goTo(n) {
   current = n;
   document.getElementById(PAGES[n]).classList.add('active');
   document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === n));
+  toggleBackBtn();
   if (n === 1) setTimeout(launchConfetti, 300);
+}
+
+function goBack() {
+  if (current > 0) goTo(current - 1);
+}
+
+function toggleBackBtn() {
+  const btn = document.getElementById('back-btn');
+  btn.classList.toggle('show', current > 0);
 }
 
 function pad(v) { return String(v).padStart(2, '0'); }
@@ -537,6 +753,7 @@ function tickCountdown() {
 
 renderCountdown();
 const ticker = setInterval(tickCountdown, 1000);
+toggleBackBtn();
 
 function launchConfetti() {
   const em = ['🌸','✨','🎂','💕','🌷','🎉','💖','🎀'];
@@ -561,6 +778,20 @@ function closeVideo() {
 }
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') closeVideo();
+});
+
+document.querySelectorAll('.page').forEach(page => {
+  page.addEventListener('mousemove', e => {
+    const rect = page.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    page.style.transform = `translateY(0) rotateX(${(-y * 1.4).toFixed(2)}deg) rotateY(${(x * 1.4).toFixed(2)}deg)`;
+  });
+  page.addEventListener('mouseleave', () => {
+    if (page.classList.contains('active')) {
+      page.style.transform = 'translateY(0) rotateX(0deg) rotateY(0deg)';
+    }
+  });
 });
 </script>
 </body>
