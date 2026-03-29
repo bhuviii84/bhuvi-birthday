@@ -81,6 +81,10 @@
   #p-s3    { background: linear-gradient(155deg, #fdf0ea 0%, var(--cream) 100%); }
   #p-s4    { background: radial-gradient(ellipse at center, #3d2020 0%, var(--dark) 100%); }
   #p-s5    { background: linear-gradient(155deg, #fdf0ea 0%, var(--cream) 100%); }
+  #p-s5 {
+    justify-content: flex-start;
+    padding-top: clamp(4.5rem, 9vh, 6rem);
+  }
 
   .page::after {
     content: '';
@@ -647,7 +651,9 @@ function goTo(n) {
   from.classList.remove('active');
   setTimeout(() => from.classList.remove('exit'), 800);
   current = n;
-  document.getElementById(PAGES[n]).classList.add('active');
+  const nextPage = document.getElementById(PAGES[n]);
+  nextPage.classList.add('active');
+  nextPage.scrollTop = 0;
   document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === n));
   toggleBackBtn();
   if (n === 1) setTimeout(launchConfetti, 300);
