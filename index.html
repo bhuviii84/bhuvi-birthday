@@ -331,6 +331,36 @@
   }
   .dot.active { opacity: 1; background: var(--rose); transform: scale(1.35); }
 
+  /* ── GLOBAL BACK BUTTON ── */
+  #back-btn {
+    position: fixed;
+    top: 1.1rem;
+    left: 1rem;
+    z-index: 40;
+    padding: 0.55rem 1rem;
+    border-radius: 999px;
+    border: 1px solid rgba(232,168,156,0.55);
+    background: rgba(22, 9, 9, 0.52);
+    color: #fbe7e2;
+    font-size: 0.72rem;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    cursor: pointer;
+    backdrop-filter: blur(6px);
+    transition: transform 0.28s ease, background 0.28s ease, opacity 0.28s ease;
+    opacity: 0;
+    pointer-events: none;
+  }
+  #back-btn.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  #back-btn:hover {
+    transform: translateY(-2px);
+    background: rgba(232,168,156,0.9);
+    color: #2a1717;
+  }
+
   /* ── PHOTO GALLERY ── */
   .memory-grid {
     width: min(900px, 92vw);
@@ -475,6 +505,8 @@
 <body>
 
 <div id="particles"></div>
+
+<button id="back-btn" onclick="goBack()">← Back</button>
 
 <div id="step-dots">
   <div class="dot active" id="dot0"></div>
@@ -628,7 +660,17 @@ function goTo(n) {
   current = n;
   document.getElementById(PAGES[n]).classList.add('active');
   document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === n));
+  toggleBackBtn();
   if (n === 1) setTimeout(launchConfetti, 300);
+}
+
+function goBack() {
+  if (current > 0) goTo(current - 1);
+}
+
+function toggleBackBtn() {
+  const btn = document.getElementById('back-btn');
+  btn.classList.toggle('show', current > 0);
 }
 
 function pad(v) { return String(v).padStart(2, '0'); }
@@ -711,6 +753,7 @@ function tickCountdown() {
 
 renderCountdown();
 const ticker = setInterval(tickCountdown, 1000);
+toggleBackBtn();
 
 function launchConfetti() {
   const em = ['🌸','✨','🎂','💕','🌷','🎉','💖','🎀'];
