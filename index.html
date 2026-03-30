@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Something made only for you 🌸</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
 <style>
   :root {
     --cream: #fdf6ee;
@@ -15,9 +15,6 @@
     --gold: #c9a96e;
     --petal: #f9e8e3;
     --dark: #1a0f0f;
-    --title-letter-space: 0em;
-    --title-glow: 0px;
-    --hue-shift: 0deg;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -484,58 +481,6 @@
     letter-spacing:0.12em; text-transform:uppercase; text-align:center;
   }
 
-
-
-  /* ── EXPERIENCE UTILITIES ── */
-  .aurora-layer {
-    position: fixed;
-    inset: -15% -20%;
-    z-index: 1;
-    pointer-events: none;
-    filter: blur(60px) saturate(1.2);
-    opacity: 0.4;
-    animation: drift 18s ease-in-out infinite alternate;
-  }
-  .aurora-layer::before,
-  .aurora-layer::after {
-    content: '';
-    position: absolute;
-    border-radius: 50%;
-    mix-blend-mode: screen;
-  }
-  .aurora-layer::before {
-    width: 40vw;
-    height: 40vw;
-    left: 5%;
-    top: 8%;
-    background: radial-gradient(circle, rgba(232,168,156,0.35), transparent 70%);
-  }
-  .aurora-layer::after {
-    width: 34vw;
-    height: 34vw;
-    right: 6%;
-    top: 25%;
-    background: radial-gradient(circle, rgba(201,169,110,0.25), transparent 72%);
-  }
-  @keyframes drift {
-    0% { transform: translate3d(-2%, 0%, 0) scale(1); }
-    100% { transform: translate3d(2%, -2%, 0) scale(1.07); }
-  }
-
-  body.fx-soft .page-title {
-    letter-spacing: var(--title-letter-space);
-    text-shadow: 0 0 var(--title-glow) rgba(255, 215, 209, 0.55);
-  }
-  body { filter: hue-rotate(var(--hue-shift)); }
-
-  @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
-    }
-  }
-
   /* ── CONFETTI ── */
   .conf {
     position:fixed; pointer-events:none; z-index:200;
@@ -550,7 +495,6 @@
 <body>
 
 <div id="particles"></div>
-<div class="aurora-layer" aria-hidden="true"></div>
 
 <button id="back-btn" onclick="goBack()">← Back</button>
 
@@ -577,7 +521,7 @@
   <div class="float-icon">🎂</div>
   <h1 class="page-title">
     This is not just a page…<br>
-    <span style="color:var(--rose)" id="hero-name-line">this is something I made only for you.</span>
+    <span style="color:var(--rose)">this is something I made only for you.</span>
   </h1>
   <div class="divider">
     <div class="divider-line"></div>
@@ -700,7 +644,6 @@ for (let i = 0; i < 22; i++) {
 
 const PAGES = ['p-timer','p-lock','p-s1','p-s2','p-s3','p-s4','p-s5'];
 let current = 0;
-let ticker = null;
 
 function goTo(n) {
   const from = document.getElementById(PAGES[current]);
@@ -751,7 +694,7 @@ function renderCountdown() {
         Today is your special day…
       </p>`;
     btn.style.display = 'inline-block';
-    if (ticker) clearInterval(ticker);
+    clearInterval(ticker);
     return;
   }
 
@@ -804,7 +747,7 @@ function tickCountdown() {
 }
 
 renderCountdown();
-ticker = setInterval(tickCountdown, 1000);
+const ticker = setInterval(tickCountdown, 1000);
 toggleBackBtn();
 
 function launchConfetti() {
@@ -824,7 +767,6 @@ function launchConfetti() {
 
 document.querySelectorAll('.page').forEach(page => {
   page.addEventListener('mousemove', e => {
-    if (!fxEnabled) return;
     const rect = page.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width - 0.5;
     const y = (e.clientY - rect.top) / rect.height - 0.5;
@@ -836,20 +778,6 @@ document.querySelectorAll('.page').forEach(page => {
     }
   });
 });
-
-let fxEnabled = true;
-
-function updateFxState() {
-  document.body.classList.toggle('fx-soft', fxEnabled);
-  document.getElementById('particles').style.display = fxEnabled ? 'block' : 'none';
-  document.querySelector('.aurora-layer').style.display = fxEnabled ? 'block' : 'none';
-  document.body.style.setProperty('--title-letter-space', '0em');
-  document.body.style.setProperty('--title-glow', '0px');
-  document.body.style.setProperty('--hue-shift', '0deg');
-}
-
-updateFxState();
-
 </script>
 </body>
 </html>
