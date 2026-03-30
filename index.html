@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Something made only for you 🌸</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
 <style>
   :root {
     --cream: #fdf6ee;
@@ -15,9 +15,6 @@
     --gold: #c9a96e;
     --petal: #f9e8e3;
     --dark: #1a0f0f;
-    --title-letter-space: 0em;
-    --title-glow: 0px;
-    --hue-shift: 0deg;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -484,183 +481,6 @@
     letter-spacing:0.12em; text-transform:uppercase; text-align:center;
   }
 
-
-
-  /* ── EXPERIENCE UTILITIES ── */
-  .aurora-layer {
-    position: fixed;
-    inset: -15% -20%;
-    z-index: 1;
-    pointer-events: none;
-    filter: blur(60px) saturate(1.2);
-    opacity: 0.4;
-    animation: drift 18s ease-in-out infinite alternate;
-  }
-  .aurora-layer::before,
-  .aurora-layer::after {
-    content: '';
-    position: absolute;
-    border-radius: 50%;
-    mix-blend-mode: screen;
-  }
-  .aurora-layer::before {
-    width: 40vw;
-    height: 40vw;
-    left: 5%;
-    top: 8%;
-    background: radial-gradient(circle, rgba(232,168,156,0.35), transparent 70%);
-  }
-  .aurora-layer::after {
-    width: 34vw;
-    height: 34vw;
-    right: 6%;
-    top: 25%;
-    background: radial-gradient(circle, rgba(201,169,110,0.25), transparent 72%);
-  }
-  @keyframes drift {
-    0% { transform: translate3d(-2%, 0%, 0) scale(1); }
-    100% { transform: translate3d(2%, -2%, 0) scale(1.07); }
-  }
-
-  .utility-stack {
-    position: fixed;
-    top: 1rem;
-    right: 1rem;
-    z-index: 60;
-    display: flex;
-    gap: 0.45rem;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-  }
-  .util-btn {
-    border: 1px solid rgba(232,168,156,0.45);
-    background: rgba(255,255,255,0.66);
-    color: var(--deep);
-    border-radius: 999px;
-    padding: 0.48rem 0.85rem;
-    font-size: 0.66rem;
-    letter-spacing: 0.13em;
-    text-transform: uppercase;
-    cursor: pointer;
-    backdrop-filter: blur(8px);
-    transition: transform 0.25s ease, background 0.25s ease;
-  }
-  .util-btn:hover {
-    transform: translateY(-2px);
-    background: rgba(232,168,156,0.88);
-    color: #fff;
-  }
-
-  .control-panel {
-    position: fixed;
-    right: 1rem;
-    top: 4rem;
-    width: min(360px, 92vw);
-    max-height: 82vh;
-    overflow-y: auto;
-    z-index: 70;
-    background: rgba(22, 11, 11, 0.9);
-    border: 1px solid rgba(232,168,156,0.35);
-    border-radius: 16px;
-    padding: 1rem;
-    color: #f8e6e2;
-    transform: translateY(-12px) scale(0.98);
-    opacity: 0;
-    pointer-events: none;
-    transition: all 0.3s ease;
-    box-shadow: 0 16px 40px rgba(0,0,0,0.35);
-  }
-  .control-panel.open {
-    opacity: 1;
-    pointer-events: auto;
-    transform: translateY(0) scale(1);
-  }
-  .panel-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.45rem;
-    margin-bottom: 0.85rem;
-    color: #ffeae7;
-  }
-  .field { margin-bottom: 0.85rem; }
-  .field label {
-    font-size: 0.65rem;
-    letter-spacing: 0.13em;
-    text-transform: uppercase;
-    display: block;
-    margin-bottom: 0.4rem;
-    color: #d7bcbc;
-  }
-  .field input, .field select {
-    width: 100%;
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(232,168,156,0.3);
-    color: #ffe9e5;
-    padding: 0.55rem 0.65rem;
-    border-radius: 10px;
-    font-family: inherit;
-    outline: none;
-  }
-  .field-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.6rem;
-  }
-  .panel-actions {
-    display: flex;
-    gap: 0.55rem;
-    margin-top: 0.7rem;
-  }
-  .panel-actions button {
-    flex: 1;
-    padding: 0.56rem 0.7rem;
-    border-radius: 999px;
-    border: 1px solid rgba(232,168,156,0.42);
-    background: transparent;
-    color: #f8ddd6;
-    font-size: 0.64rem;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    cursor: pointer;
-  }
-  .panel-actions button:hover { background: rgba(232,168,156,0.85); color: #2d1515; }
-
-  .search-results {
-    margin-top: 0.55rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.45rem;
-  }
-  .search-result {
-    text-align: left;
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(232,168,156,0.2);
-    color: #ffede9;
-    border-radius: 10px;
-    padding: 0.52rem 0.6rem;
-    cursor: pointer;
-    font-size: 0.72rem;
-  }
-  .search-result:hover { border-color: rgba(232,168,156,0.62); transform: translateX(2px); }
-
-  body.fx-soft .page-title {
-    letter-spacing: var(--title-letter-space);
-    text-shadow: 0 0 var(--title-glow) rgba(255, 215, 209, 0.55);
-  }
-  body { filter: hue-rotate(var(--hue-shift)); }
-
-  @media (max-width: 720px) {
-    .utility-stack { right: 0.55rem; top: 0.7rem; }
-    .control-panel { right: 0.5rem; top: 3.6rem; }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
-    }
-  }
-
   /* ── CONFETTI ── */
   .conf {
     position:fixed; pointer-events:none; z-index:200;
@@ -675,52 +495,6 @@
 <body>
 
 <div id="particles"></div>
-<div class="aurora-layer" aria-hidden="true"></div>
-
-<div class="utility-stack">
-  <button class="util-btn" id="toggle-customize">Customize</button>
-  <button class="util-btn" id="toggle-search">Search</button>
-  <button class="util-btn" id="toggle-effects">Effects: On</button>
-</div>
-
-<div class="control-panel" id="control-panel">
-  <div class="panel-title">Personalize Her Page ✨</div>
-  <div class="field">
-    <label for="name-input">Her name (hero line)</label>
-    <input id="name-input" type="text" placeholder="Enter her name">
-  </div>
-  <div class="field">
-    <label for="font-select">Title font mood</label>
-    <select id="font-select">
-      <option value="Cormorant Garamond">Cormorant (Elegant)</option>
-      <option value="Playfair Display">Playfair (Royal)</option>
-      <option value="Great Vibes">Great Vibes (Romantic)</option>
-    </select>
-  </div>
-  <div class="field-row">
-    <div class="field">
-      <label for="letter-range">Letter spacing</label>
-      <input id="letter-range" type="range" min="0" max="8" step="0.2" value="0">
-    </div>
-    <div class="field">
-      <label for="glow-range">Glow strength</label>
-      <input id="glow-range" type="range" min="0" max="20" step="1" value="0">
-    </div>
-  </div>
-  <div class="field">
-    <label for="hue-range">Color mood shift</label>
-    <input id="hue-range" type="range" min="-20" max="25" step="1" value="0">
-  </div>
-  <div class="field" id="search-field" style="display:none">
-    <label for="search-input">Search any message/page</label>
-    <input id="search-input" type="text" placeholder="Try: smile, birthday, memory...">
-    <div class="search-results" id="search-results"></div>
-  </div>
-  <div class="panel-actions">
-    <button id="save-style">Save style</button>
-    <button id="reset-style">Reset default</button>
-  </div>
-</div>
 
 <button id="back-btn" onclick="goBack()">← Back</button>
 
@@ -747,7 +521,7 @@
   <div class="float-icon">🎂</div>
   <h1 class="page-title">
     This is not just a page…<br>
-    <span style="color:var(--rose)" id="hero-name-line">this is something I made only for you.</span>
+    <span style="color:var(--rose)">this is something I made only for you.</span>
   </h1>
   <div class="divider">
     <div class="divider-line"></div>
@@ -870,7 +644,6 @@ for (let i = 0; i < 22; i++) {
 
 const PAGES = ['p-timer','p-lock','p-s1','p-s2','p-s3','p-s4','p-s5'];
 let current = 0;
-let ticker = null;
 
 function goTo(n) {
   const from = document.getElementById(PAGES[current]);
@@ -921,7 +694,7 @@ function renderCountdown() {
         Today is your special day…
       </p>`;
     btn.style.display = 'inline-block';
-    if (ticker) clearInterval(ticker);
+    clearInterval(ticker);
     return;
   }
 
@@ -974,7 +747,7 @@ function tickCountdown() {
 }
 
 renderCountdown();
-ticker = setInterval(tickCountdown, 1000);
+const ticker = setInterval(tickCountdown, 1000);
 toggleBackBtn();
 
 function launchConfetti() {
@@ -994,7 +767,6 @@ function launchConfetti() {
 
 document.querySelectorAll('.page').forEach(page => {
   page.addEventListener('mousemove', e => {
-    if (!fxEnabled) return;
     const rect = page.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width - 0.5;
     const y = (e.clientY - rect.top) / rect.height - 0.5;
@@ -1006,154 +778,6 @@ document.querySelectorAll('.page').forEach(page => {
     }
   });
 });
-
-const panel = document.getElementById('control-panel');
-const searchField = document.getElementById('search-field');
-const nameInput = document.getElementById('name-input');
-const fontSelect = document.getElementById('font-select');
-const letterRange = document.getElementById('letter-range');
-const glowRange = document.getElementById('glow-range');
-const hueRange = document.getElementById('hue-range');
-const searchInput = document.getElementById('search-input');
-const searchResults = document.getElementById('search-results');
-const heroNameLine = document.getElementById('hero-name-line');
-const fxBtn = document.getElementById('toggle-effects');
-
-const defaultHeroText = heroNameLine.textContent;
-let fxEnabled = true;
-
-function openPanel(withSearch = false) {
-  panel.classList.add('open');
-  searchField.style.display = withSearch ? 'block' : 'none';
-  if (withSearch) searchInput.focus();
-}
-
-function closePanel() {
-  panel.classList.remove('open');
-}
-
-document.getElementById('toggle-customize').addEventListener('click', () => {
-  const isOpen = panel.classList.contains('open') && searchField.style.display === 'none';
-  if (isOpen) closePanel(); else openPanel(false);
-});
-
-document.getElementById('toggle-search').addEventListener('click', () => {
-  const isOpen = panel.classList.contains('open') && searchField.style.display === 'block';
-  if (isOpen) closePanel(); else openPanel(true);
-});
-
-function applyStyleSettings() {
-  document.body.style.setProperty('--title-letter-space', `${letterRange.value / 100}em`);
-  document.body.style.setProperty('--title-glow', `${glowRange.value}px`);
-  document.body.style.setProperty('--hue-shift', `${hueRange.value}deg`);
-  document.querySelectorAll('.page-title').forEach(title => {
-    title.style.fontFamily = `${fontSelect.value}, serif`;
-  });
-  const nm = nameInput.value.trim();
-  heroNameLine.textContent = nm ? `this is something I made only for ${nm}.` : defaultHeroText;
-}
-
-[nameInput, fontSelect, letterRange, glowRange, hueRange].forEach(el => {
-  el.addEventListener('input', applyStyleSettings);
-});
-
-function saveSettings() {
-  const payload = {
-    name: nameInput.value,
-    font: fontSelect.value,
-    letter: letterRange.value,
-    glow: glowRange.value,
-    hue: hueRange.value,
-    fxEnabled
-  };
-  localStorage.setItem('birthdayPageStyle', JSON.stringify(payload));
-}
-
-function loadSettings() {
-  const raw = localStorage.getItem('birthdayPageStyle');
-  if (!raw) return;
-  try {
-    const s = JSON.parse(raw);
-    nameInput.value = s.name || '';
-    fontSelect.value = s.font || 'Cormorant Garamond';
-    letterRange.value = s.letter || 0;
-    glowRange.value = s.glow || 0;
-    hueRange.value = s.hue || 0;
-    fxEnabled = s.fxEnabled !== false;
-    updateFxState();
-    applyStyleSettings();
-  } catch (err) {
-    console.warn('Could not load saved settings', err);
-  }
-}
-
-function resetSettings() {
-  nameInput.value = '';
-  fontSelect.value = 'Cormorant Garamond';
-  letterRange.value = 0;
-  glowRange.value = 0;
-  hueRange.value = 0;
-  fxEnabled = true;
-  updateFxState();
-  applyStyleSettings();
-  localStorage.removeItem('birthdayPageStyle');
-}
-
-document.getElementById('save-style').addEventListener('click', saveSettings);
-document.getElementById('reset-style').addEventListener('click', resetSettings);
-
-function updateFxState() {
-  document.body.classList.toggle('fx-soft', fxEnabled);
-  document.getElementById('particles').style.display = fxEnabled ? 'block' : 'none';
-  document.querySelector('.aurora-layer').style.display = fxEnabled ? 'block' : 'none';
-  fxBtn.textContent = `Effects: ${fxEnabled ? 'On' : 'Off'}`;
-}
-
-fxBtn.addEventListener('click', () => {
-  fxEnabled = !fxEnabled;
-  updateFxState();
-});
-
-function searchPages(query) {
-  searchResults.innerHTML = '';
-  if (!query.trim()) return;
-  const q = query.toLowerCase();
-  const matches = PAGES
-    .map((id, index) => ({ index, id, text: document.getElementById(id).innerText.replace(/\s+/g, ' ').trim() }))
-    .filter(item => item.text.toLowerCase().includes(q));
-
-  if (!matches.length) {
-    searchResults.innerHTML = '<div class="search-result">No match found yet. Try another keyword.</div>';
-    return;
-  }
-
-  matches.slice(0, 6).forEach(item => {
-    const btn = document.createElement('button');
-    btn.className = 'search-result';
-    const label = item.id.replace('p-', '').toUpperCase();
-    btn.textContent = `${label}: ${item.text.slice(0, 82)}...`;
-    btn.addEventListener('click', () => {
-      goTo(item.index);
-      closePanel();
-    });
-    searchResults.appendChild(btn);
-  });
-}
-
-searchInput.addEventListener('input', e => searchPages(e.target.value));
-
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closePanel();
-  if (e.key.toLowerCase() === 'f' && (e.ctrlKey || e.metaKey)) {
-    e.preventDefault();
-    openPanel(true);
-  }
-});
-
-loadSettings();
-applyStyleSettings();
-updateFxState();
-
 </script>
 </body>
 </html>
