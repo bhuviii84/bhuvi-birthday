@@ -79,9 +79,10 @@
   #p-s1    { background: linear-gradient(155deg, var(--cream) 0%, #fce9e1 100%); }
   #p-s2    { background: linear-gradient(155deg, #261010 0%, var(--dark) 100%); }
   #p-s3    { background: linear-gradient(155deg, #fdf0ea 0%, var(--cream) 100%); }
-  #p-s4    { background: radial-gradient(ellipse at center, #3d2020 0%, var(--dark) 100%); }
-  #p-s5    { background: linear-gradient(155deg, #fdf0ea 0%, var(--cream) 100%); }
-  #p-s5 {
+  #p-s4    { background: linear-gradient(145deg, #fff4ea 0%, #ffe1d2 100%); }
+  #p-s5    { background: radial-gradient(ellipse at center, #3d2020 0%, var(--dark) 100%); }
+  #p-s6    { background: linear-gradient(155deg, #fdf0ea 0%, var(--cream) 100%); }
+  #p-s6 {
     justify-content: flex-start;
     padding-top: clamp(4.5rem, 9vh, 6rem);
   }
@@ -481,6 +482,76 @@
     letter-spacing:0.12em; text-transform:uppercase; text-align:center;
   }
 
+
+  /* ── CELEBRATION CANDLES ── */
+  .celebrate-title {
+    font-size: clamp(2.4rem, 8vw, 4.6rem);
+    margin-top: 1.4rem;
+    letter-spacing: 0.04em;
+    font-style: normal;
+    background: linear-gradient(90deg, #ff5076, #ff9f43, #ffd93d, #27c7ff, #6b7bff, #d96bff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: 0 8px 22px rgba(255, 98, 141, 0.2);
+  }
+  .celebrate-gap { height: clamp(1.6rem, 5vh, 2.8rem); }
+  .candle-row {
+    margin-top: 0.6rem;
+    width: min(700px, 94vw);
+    display: grid;
+    grid-template-columns: repeat(5, minmax(58px, 1fr));
+    gap: clamp(0.6rem, 2vw, 1rem);
+    align-items: end;
+  }
+  .candle {
+    position: relative;
+    min-height: 168px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+  }
+  .flame-btn {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: clamp(1.7rem, 3.2vw, 2.3rem);
+    line-height: 1;
+    margin-bottom: 0.1rem;
+    filter: drop-shadow(0 2px 4px rgba(255, 127, 48, 0.3));
+    transition: transform 0.25s ease, filter 0.25s ease;
+  }
+  .flame-btn:hover { transform: translateY(-2px) scale(1.08); }
+  .flame-btn.lit { filter: drop-shadow(0 4px 8px rgba(255, 82, 82, 0.55)); }
+  .candle-stick {
+    width: clamp(48px, 8vw, 62px);
+    height: 112px;
+    border-radius: 12px 12px 10px 10px;
+    background: linear-gradient(180deg, #ffe6f0 0%, #ff97b6 52%, #ff618f 100%);
+    border: 1px solid rgba(255, 97, 143, 0.45);
+    display: grid;
+    place-items: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4.5vw, 2.8rem);
+    color: #ffffff;
+    text-shadow: 0 2px 10px rgba(83, 19, 44, 0.35);
+    box-shadow: 0 12px 28px rgba(255, 89, 139, 0.25);
+  }
+  .candle-base {
+    width: clamp(64px, 11vw, 82px);
+    height: 14px;
+    border-radius: 999px;
+    margin-top: 0.4rem;
+    background: linear-gradient(90deg, #ffc4d7, #ff9bbd);
+  }
+  .candle-letter {
+    opacity: 0;
+    transform: scale(0.6);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  .candle-letter.show { opacity: 1; transform: scale(1); }
+
   /* ── CONFETTI ── */
   .conf {
     position:fixed; pointer-events:none; z-index:200;
@@ -506,6 +577,7 @@
   <div class="dot" id="dot4"></div>
   <div class="dot" id="dot5"></div>
   <div class="dot" id="dot6"></div>
+  <div class="dot" id="dot7"></div>
 </div>
 
 <div class="page active" id="p-timer">
@@ -577,7 +649,46 @@
   <button class="btn-next" onclick="goTo(5)">Next →</button>
 </div>
 
-<div class="page dark-page" id="p-s4">
+<div class="page" id="p-s4">
+  <p class="page-label">Celebration Begins</p>
+  <h2 class="page-title">Happy birthday, let's start the celebration 🍾<br>with full of joy.</h2>
+  <div class="page-body">
+    Ready to blow the candle?<br>
+    Click each fire one by one.
+  </div>
+  <div class="celebrate-gap"></div>
+  <h2 class="page-title celebrate-title">HAPPY BIRTHDAY</h2>
+  <div class="candle-row">
+    <div class="candle">
+      <button class="flame-btn" aria-label="Light first candle" data-index="0">🔥</button>
+      <div class="candle-stick"><span class="candle-letter" id="letter-0">B</span></div>
+      <div class="candle-base"></div>
+    </div>
+    <div class="candle">
+      <button class="flame-btn" aria-label="Light second candle" data-index="1">🔥</button>
+      <div class="candle-stick"><span class="candle-letter" id="letter-1">H</span></div>
+      <div class="candle-base"></div>
+    </div>
+    <div class="candle">
+      <button class="flame-btn" aria-label="Light third candle" data-index="2">🔥</button>
+      <div class="candle-stick"><span class="candle-letter" id="letter-2">U</span></div>
+      <div class="candle-base"></div>
+    </div>
+    <div class="candle">
+      <button class="flame-btn" aria-label="Light fourth candle" data-index="3">🔥</button>
+      <div class="candle-stick"><span class="candle-letter" id="letter-3">V</span></div>
+      <div class="candle-base"></div>
+    </div>
+    <div class="candle">
+      <button class="flame-btn" aria-label="Light fifth candle" data-index="4">🔥</button>
+      <div class="candle-stick"><span class="candle-letter" id="letter-4">I</span></div>
+      <div class="candle-base"></div>
+    </div>
+  </div>
+  <button class="btn-next" onclick="goTo(5)">Next → video</button>
+</div>
+
+<div class="page dark-page" id="p-s5">
   <p class="page-label">Cake Cutting Memory</p>
   <h2 class="page-title">First, your cake cutting<br>video moment 🎂</h2>
   <div class="page-body">
@@ -601,7 +712,7 @@
   <button class="btn-next" onclick="goTo(6)">Next → Final photos</button>
 </div>
 
-<div class="page" id="p-s5">
+<div class="page" id="p-s6">
   <p class="page-label">Final Photo Page</p>
   <h2 class="page-title">And here comes your<br>birthday photos, one by one ✨</h2>
   <div class="page-body">
@@ -642,7 +753,7 @@ for (let i = 0; i < 22; i++) {
   pc.appendChild(p);
 }
 
-const PAGES = ['p-timer','p-lock','p-s1','p-s2','p-s3','p-s4','p-s5'];
+const PAGES = ['p-timer','p-lock','p-s1','p-s2','p-s3','p-s4','p-s5','p-s6'];
 let current = 0;
 
 function goTo(n) {
@@ -764,6 +875,15 @@ function launchConfetti() {
     setTimeout(() => c.remove(), 4500);
   }
 }
+
+document.querySelectorAll('.flame-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const i = btn.dataset.index;
+    btn.classList.toggle('lit');
+    btn.textContent = btn.classList.contains('lit') ? '🕯️' : '🔥';
+    document.getElementById(`letter-${i}`)?.classList.toggle('show', btn.classList.contains('lit'));
+  });
+});
 
 document.querySelectorAll('.page').forEach(page => {
   page.addEventListener('mousemove', e => {
