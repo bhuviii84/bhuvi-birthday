@@ -482,6 +482,20 @@
     margin-top:1.2rem; font-size:0.7rem; color:#c4a7a7;
     letter-spacing:0.12em; text-transform:uppercase; text-align:center;
   }
+  .video-debug {
+    display: none;
+    margin-top: 0.7rem;
+    font-size: 0.78rem;
+    line-height: 1.6;
+    color: #ffd6cf;
+    background: rgba(80, 25, 25, 0.35);
+    border: 1px solid rgba(255, 214, 207, 0.35);
+    border-radius: 10px;
+    padding: 0.55rem 0.7rem;
+    text-transform: none;
+    letter-spacing: 0.02em;
+  }
+  .video-debug.show { display: block; }
 
   /* ── CANDLE PAGE ── */
   .celebration-intro {
@@ -773,6 +787,7 @@
     <div class="video-grid">
       <div class="video-card">
         <video
+          id="birthday-video"
           controls
           preload="metadata"
           poster="https://images.pexels.com/videos/4969884/free-video-4969884.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
@@ -783,6 +798,7 @@
     </div>
   </div>
   <p class="video-note">Play this first, then move to the final photos page</p>
+  <p class="video-debug" id="video-debug"></p>
   <button class="btn-next" onclick="goTo(7)">Next → Final photos</button>
 </div>
 
@@ -1168,6 +1184,36 @@ function setupCandles() {
 }
 
 setupCandles();
+
+function setupVideoHelp() {
+  const video = document.getElementById('birthday-video');
+  const debug = document.getElementById('video-debug');
+  if (!video || !debug) return;
+
+  const show = (msg) => {
+    debug.textContent = msg;
+    debug.classList.add('show');
+  };
+  const hide = () => debug.classList.remove('show');
+
+  if (window.location.protocol === 'file:') {
+    show('Tip: open this page using a local server (not file://). Example: run "python3 -m http.server" in this folder, then open http://localhost:8000.');
+  }
+
+  video.addEventListener('canplay', hide);
+  video.addEventListener('error', () => {
+    const code = video.error ? video.error.code : 0;
+    const reason = {
+      1: 'Loading was interrupted.',
+      2: 'Network issue while fetching the video file.',
+      3: 'The video file appears corrupted or encoded in an unsupported codec.',
+      4: 'File/path/type not supported by this browser.',
+    }[code] || 'Unknown playback issue.';
+    show(`Video failed to play. ${reason} Use .mp4 (H.264 video + AAC audio) and check the exact filename/path.`);
+  });
+}
+
+setupVideoHelp();
 
 document.querySelectorAll('.page').forEach(page => {
   page.addEventListener('mousemove', e => {
