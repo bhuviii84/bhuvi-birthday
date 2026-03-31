@@ -735,26 +735,31 @@
   <div class="candle-row" id="candle-row">
     <div class="candle" data-index="0">
       <button class="flame" type="button" aria-label="Blow candle 1"></button>
+      <button class="flame" aria-label="Blow candle 1"></button>
       <div class="wick"></div>
       <div class="candle-body"><span class="candle-letter">B</span></div>
     </div>
     <div class="candle" data-index="1">
       <button class="flame" type="button" aria-label="Blow candle 2"></button>
+      <button class="flame" aria-label="Blow candle 2"></button>
       <div class="wick"></div>
       <div class="candle-body"><span class="candle-letter">H</span></div>
     </div>
     <div class="candle" data-index="2">
       <button class="flame" type="button" aria-label="Blow candle 3"></button>
+      <button class="flame" aria-label="Blow candle 3"></button>
       <div class="wick"></div>
       <div class="candle-body"><span class="candle-letter">U</span></div>
     </div>
     <div class="candle" data-index="3">
       <button class="flame" type="button" aria-label="Blow candle 4"></button>
+      <button class="flame" aria-label="Blow candle 4"></button>
       <div class="wick"></div>
       <div class="candle-body"><span class="candle-letter">V</span></div>
     </div>
     <div class="candle" data-index="4">
       <button class="flame" type="button" aria-label="Blow candle 5"></button>
+      <button class="flame" aria-label="Blow candle 5"></button>
       <div class="wick"></div>
       <div class="candle-body"><span class="candle-letter">I</span></div>
     </div>
@@ -1158,6 +1163,7 @@ function setupCandles() {
     if (!flame) return;
 
     const blowCandle = () => {
+    flame.addEventListener('click', () => {
       if (done.has(index)) return;
       done.add(index);
       candle.classList.add('done');
@@ -1168,6 +1174,7 @@ function setupCandles() {
 
     flame.addEventListener('pointerdown', blowCandle);
     flame.addEventListener('click', blowCandle);
+    });
   });
 }
 
