@@ -79,9 +79,10 @@
   #p-s1    { background: linear-gradient(155deg, var(--cream) 0%, #fce9e1 100%); }
   #p-s2    { background: linear-gradient(155deg, #261010 0%, var(--dark) 100%); }
   #p-s3    { background: linear-gradient(155deg, #fdf0ea 0%, var(--cream) 100%); }
-  #p-s4    { background: radial-gradient(ellipse at center, #3d2020 0%, var(--dark) 100%); }
-  #p-s5    { background: linear-gradient(155deg, #fdf0ea 0%, var(--cream) 100%); }
-  #p-s5 {
+  #p-s4    { background: radial-gradient(circle at top, #fff0d8 0%, #fce5c8 45%, #f7d3b3 100%); }
+  #p-s5    { background: radial-gradient(ellipse at center, #3d2020 0%, var(--dark) 100%); }
+  #p-s6    { background: linear-gradient(155deg, #fdf0ea 0%, var(--cream) 100%); }
+  #p-s6 {
     justify-content: flex-start;
     padding-top: clamp(4.5rem, 9vh, 6rem);
   }
@@ -481,6 +482,122 @@
     letter-spacing:0.12em; text-transform:uppercase; text-align:center;
   }
 
+  /* ── CANDLE PAGE ── */
+  .celebration-intro {
+    max-width: 680px;
+    font-size: clamp(1rem, 2.4vw, 1.2rem);
+    line-height: 1.8;
+    color: #7c4a2a;
+    margin-bottom: 1.4rem;
+  }
+  .birthday-word {
+    display: flex;
+    gap: clamp(0.4rem, 1.8vw, 1rem);
+    margin: 1.4rem 0 2.3rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.8rem, 7.2vw, 4rem);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .birthday-word span:nth-child(1) { color: #ff5277; }
+  .birthday-word span:nth-child(2) { color: #ff8b3e; }
+  .birthday-word span:nth-child(3) { color: #ffc93c; }
+  .birthday-word span:nth-child(4) { color: #5cd66e; }
+  .birthday-word span:nth-child(5) { color: #4db6ff; }
+  .birthday-word span:nth-child(6) { color: #9b7dff; }
+  .birthday-word span:nth-child(7) { color: #ff67b7; }
+  .birthday-word span:nth-child(8) { color: #ff5c7a; }
+  .birthday-word span:nth-child(9) { color: #ffa650; }
+  .birthday-word span:nth-child(10) { color: #ffd04d; }
+  .birthday-word span:nth-child(11) { color: #68dc80; }
+  .birthday-word span:nth-child(12) { color: #59c4ff; }
+  .birthday-word span:nth-child(13) { color: #b490ff; }
+
+  .candle-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1.4rem;
+  }
+  .candle {
+    position: relative;
+    width: 86px;
+    height: 180px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    padding-bottom: 0.2rem;
+  }
+  .flame {
+    width: 22px;
+    height: 32px;
+    border: none;
+    border-radius: 50% 50% 55% 55%;
+    background: radial-gradient(circle at 50% 70%, #ffe16a 0%, #ffb038 55%, #ff6427 100%);
+    box-shadow: 0 0 18px rgba(255, 150, 60, 0.8);
+    cursor: pointer;
+    margin-bottom: 6px;
+    animation: flameDance 0.8s ease-in-out infinite;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+  .flame.blown {
+    opacity: 0.2;
+    box-shadow: none;
+    animation: none;
+    transform: translateY(6px) scale(0.8);
+    cursor: default;
+  }
+  @keyframes flameDance {
+    0%, 100% { transform: rotate(-4deg) scale(1); }
+    50% { transform: rotate(4deg) scale(1.08); }
+  }
+  .wick {
+    width: 3px;
+    height: 10px;
+    background: #5d3b2f;
+    border-radius: 4px;
+  }
+  .candle-body {
+    width: 54px;
+    height: 98px;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #ffd7d0 0%, #fff0ea 45%, #ffcfc4 100%);
+    border: 1px solid rgba(155, 88, 64, 0.2);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 22px rgba(122, 66, 41, 0.2);
+  }
+  .candle-letter {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #7a2b3a;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+  }
+  .candle.done .candle-letter {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .candle-help {
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #8a5c3b;
+  }
+  #candles-next[disabled] {
+    opacity: 0.45;
+    cursor: not-allowed;
+    border-color: rgba(138, 92, 59, 0.35);
+    color: #8a5c3b;
+  }
+
 
 
   /* ── FLORAL FRAME OVERLAY ── */
@@ -529,6 +646,7 @@
   <div class="dot" id="dot4"></div>
   <div class="dot" id="dot5"></div>
   <div class="dot" id="dot6"></div>
+  <div class="dot" id="dot7"></div>
 </div>
 
 <div class="page active" id="p-timer">
@@ -601,6 +719,49 @@
 </div>
 
 <div class="page dark-page" id="p-s4">
+  <p class="page-label">Birthday Celebration Start</p>
+  <h2 class="page-title">Happy birthday, let's start the celebration 🍾</h2>
+  <p class="celebration-intro">
+    Full of joy and smiles...<br>
+    Ready to blow the candle?<br>
+    Tap each fire and reveal your final surprise.
+  </p>
+  <div class="birthday-word" aria-label="Happy Birthday">
+    <span>H</span><span>A</span><span>P</span><span>P</span><span>Y</span>
+    <span>B</span><span>I</span><span>R</span><span>T</span><span>H</span><span>D</span><span>A</span><span>Y</span>
+  </div>
+  <div class="candle-row" id="candle-row">
+    <div class="candle" data-index="0">
+      <button class="flame" aria-label="Blow candle 1"></button>
+      <div class="wick"></div>
+      <div class="candle-body"><span class="candle-letter">B</span></div>
+    </div>
+    <div class="candle" data-index="1">
+      <button class="flame" aria-label="Blow candle 2"></button>
+      <div class="wick"></div>
+      <div class="candle-body"><span class="candle-letter">H</span></div>
+    </div>
+    <div class="candle" data-index="2">
+      <button class="flame" aria-label="Blow candle 3"></button>
+      <div class="wick"></div>
+      <div class="candle-body"><span class="candle-letter">U</span></div>
+    </div>
+    <div class="candle" data-index="3">
+      <button class="flame" aria-label="Blow candle 4"></button>
+      <div class="wick"></div>
+      <div class="candle-body"><span class="candle-letter">V</span></div>
+    </div>
+    <div class="candle" data-index="4">
+      <button class="flame" aria-label="Blow candle 5"></button>
+      <div class="wick"></div>
+      <div class="candle-body"><span class="candle-letter">I</span></div>
+    </div>
+  </div>
+  <p class="candle-help">Blow all 5 candles to unlock the next page</p>
+  <button class="btn-next" id="candles-next" onclick="goTo(6)" disabled>Next → Video page</button>
+</div>
+
+<div class="page dark-page" id="p-s5">
   <p class="page-label">Natural Birthday Vibes</p>
   <h2 class="page-title">A natural happy birthday<br>video just for you 🎂</h2>
   <div class="page-body">
@@ -621,10 +782,10 @@
     </div>
   </div>
   <p class="video-note">Play this first, then move to the final photos page</p>
-  <button class="btn-next" onclick="goTo(6)">Next → Final photos</button>
+  <button class="btn-next" onclick="goTo(7)">Next → Final photos</button>
 </div>
 
-<div class="page" id="p-s5">
+<div class="page" id="p-s6">
   <p class="page-label">Final Photo Page</p>
   <h2 class="page-title">And here comes your<br>birthday photos, one by one ✨</h2>
   <div class="page-body">
@@ -665,7 +826,7 @@ for (let i = 0; i < 22; i++) {
   pc.appendChild(p);
 }
 
-const PAGES = ['p-timer','p-lock','p-s1','p-s2','p-s3','p-s4','p-s5'];
+const PAGES = ['p-timer','p-lock','p-s1','p-s2','p-s3','p-s4','p-s5','p-s6'];
 let current = 0;
 
 function goTo(n) {
@@ -982,6 +1143,29 @@ function launchConfetti() {
     setTimeout(() => c.remove(), 4500);
   }
 }
+
+function setupCandles() {
+  const candles = Array.from(document.querySelectorAll('.candle'));
+  const nextBtn = document.getElementById('candles-next');
+  if (!candles.length || !nextBtn) return;
+
+  const done = new Set();
+  candles.forEach((candle, index) => {
+    const flame = candle.querySelector('.flame');
+    if (!flame) return;
+
+    flame.addEventListener('click', () => {
+      if (done.has(index)) return;
+      done.add(index);
+      candle.classList.add('done');
+      flame.classList.add('blown');
+      flame.disabled = true;
+      if (done.size === candles.length) nextBtn.disabled = false;
+    });
+  });
+}
+
+setupCandles();
 
 document.querySelectorAll('.page').forEach(page => {
   page.addEventListener('mousemove', e => {
