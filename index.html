@@ -828,6 +828,7 @@ for (let i = 0; i < 22; i++) {
 
 const PAGES = ['p-timer','p-lock','p-s1','p-s2','p-s3','p-s4','p-s5','p-s6'];
 let current = 0;
+let ticker = null;
 
 function goTo(n) {
   const from = document.getElementById(PAGES[current]);
@@ -878,7 +879,7 @@ function renderCountdown() {
         Today is your special day…
       </p>`;
     btn.style.display = 'inline-block';
-    clearInterval(ticker);
+    if (ticker) clearInterval(ticker);
     return;
   }
 
@@ -1126,7 +1127,7 @@ function attachFloralFrames() {
 attachFloralFrames();
 
 renderCountdown();
-const ticker = setInterval(tickCountdown, 1000);
+ticker = setInterval(tickCountdown, 1000);
 toggleBackBtn();
 
 function launchConfetti() {
