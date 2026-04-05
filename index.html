@@ -431,62 +431,16 @@
   #p-s5 .page-body {
     max-width: 760px;
   }
-  .video-frame {
+  #birthday-video {
     width: min(1120px, 96vw);
-    background:#1a0a0a;
-    border-radius:18px;
-    overflow:hidden;
-    border:1px solid rgba(232,168,156,0.16);
-    padding: clamp(0.7rem, 1.8vw, 1.2rem);
-  }
-  .video-grid { display:grid; grid-template-columns: 1fr; gap:1rem; }
-  .video-card {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    min-height: clamp(250px, 64vh, 620px);
-    border-radius: 14px;
-    overflow: hidden;
-    border: 1px solid rgba(232,168,156,0.25);
-    transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
-    background:#140808;
-  }
-  .video-card video {
-    width:100%;
-    height:100%;
-    border:0;
+    max-height: 72vh;
+    height: auto;
+    display: block;
+    margin-top: 1.2rem;
+    border: 0;
     cursor: pointer;
-    filter: contrast(0.9) saturate(0.85);
-    transition: filter 0.35s ease, transform 0.35s ease;
     object-fit: contain;
     background: #000;
-  }
-  .video-card .video-overlay {
-    position:absolute;
-    inset:0;
-    display:flex;
-    align-items:flex-end;
-    justify-content:flex-start;
-    padding:0.8rem;
-    font-size:0.73rem;
-    letter-spacing:0.08em;
-    text-transform:uppercase;
-    color:#ffe8e2;
-    background: linear-gradient(to top, rgba(5,2,2,0.82), rgba(5,2,2,0.06));
-    transition: opacity 0.35s ease;
-    pointer-events: none;
-  }
-  .video-card:hover {
-    transform: translateY(-7px) scale(1.02);
-    border-color: rgba(255,226,218,0.65);
-    box-shadow: 0 18px 35px rgba(0,0,0,0.45);
-  }
-  .video-card:hover video {
-    filter: contrast(1) saturate(1);
-    transform: scale(1.03);
-  }
-  .video-card:hover .video-overlay {
-    opacity: 0.12;
   }
   .video-note {
     margin-top:1.2rem; font-size:0.7rem; color:#c4a7a7;
@@ -511,19 +465,15 @@
   .video-debug.show { display: block; }
 
   @media (max-width: 768px) {
-    .video-frame {
+    #birthday-video {
       width: min(100%, 97vw);
-      padding: 0.7rem;
-    }
-    .video-card {
-      min-height: clamp(220px, 52vh, 420px);
+      max-height: 62vh;
     }
   }
 
   @media (max-width: 768px) and (orientation: portrait) {
-    .video-card {
-      aspect-ratio: 9 / 16;
-      min-height: clamp(320px, 72vh, 620px);
+    #birthday-video {
+      max-height: 70vh;
     }
   }
 
@@ -813,20 +763,13 @@
     Play this sweet birthday moment first,<br>
     <em>with warm candles, smiles, and cozy celebration vibes.</em>
   </div>
-  <div class="video-frame">
-    <div class="video-grid">
-      <div class="video-card">
-        <video
-          id="birthday-video"
-          controls
-          preload="metadata"
-          poster="https://images.pexels.com/videos/4969884/free-video-4969884.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-          src="BHUVANA!.mp4"
-        ></video>
-        <div class="video-overlay">Happy birthday with joy 🎉</div>
-      </div>
-    </div>
-  </div>
+  <video
+    id="birthday-video"
+    controls
+    preload="metadata"
+    poster="https://images.pexels.com/videos/4969884/free-video-4969884.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
+    src="BHUVANA!.mp4"
+  ></video>
   <p class="video-note">Play this first, then move to the final photos page</p>
   <button class="btn-next video-fullscreen-btn" id="video-fullscreen-btn" type="button">
     Full screen ↗
@@ -1220,10 +1163,9 @@ setupCandles();
 
 function setupVideoHelp() {
   const video = document.getElementById('birthday-video');
-  const videoCard = document.querySelector('.video-card');
   const fullscreenBtn = document.getElementById('video-fullscreen-btn');
   const debug = document.getElementById('video-debug');
-  if (!video || !debug || !videoCard || !fullscreenBtn) return;
+  if (!video || !debug || !fullscreenBtn) return;
 
   const show = (msg) => {
     debug.textContent = msg;
@@ -1248,7 +1190,7 @@ function setupVideoHelp() {
   });
 
   const requestFullScreen = async () => {
-    const target = videoCard;
+    const target = video;
     try {
       if (target.requestFullscreen) {
         await target.requestFullscreen();
@@ -1264,7 +1206,7 @@ function setupVideoHelp() {
 
   video.addEventListener('click', requestFullScreen);
   fullscreenBtn.addEventListener('click', requestFullScreen);
-  videoCard.addEventListener('dblclick', requestFullScreen);
+  video.addEventListener('dblclick', requestFullScreen);
 }
 
 setupVideoHelp();
