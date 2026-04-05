@@ -432,19 +432,19 @@
     max-width: 760px;
   }
   .video-frame {
-    width:100%;
-    max-width: 1100px;
+    width: min(1120px, 96vw);
     background:#1a0a0a;
     border-radius:18px;
     overflow:hidden;
     border:1px solid rgba(232,168,156,0.16);
-    padding:1.2rem;
+    padding: clamp(0.7rem, 1.8vw, 1.2rem);
   }
   .video-grid { display:grid; grid-template-columns: 1fr; gap:1rem; }
   .video-card {
     position: relative;
-    aspect-ratio: 16/9;
-    min-height: min(68vh, 620px);
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    min-height: clamp(250px, 64vh, 620px);
     border-radius: 14px;
     overflow: hidden;
     border: 1px solid rgba(232,168,156,0.25);
@@ -455,6 +455,7 @@
     width:100%;
     height:100%;
     border:0;
+    cursor: pointer;
     filter: contrast(0.9) saturate(0.85);
     transition: filter 0.35s ease, transform 0.35s ease;
     object-fit: contain;
@@ -491,6 +492,9 @@
     margin-top:1.2rem; font-size:0.7rem; color:#c4a7a7;
     letter-spacing:0.12em; text-transform:uppercase; text-align:center;
   }
+  .video-fullscreen-btn {
+    margin-top: 0.9rem;
+  }
   .video-debug {
     display: none;
     margin-top: 0.7rem;
@@ -508,10 +512,18 @@
 
   @media (max-width: 768px) {
     .video-frame {
-      padding: 0.8rem;
+      width: min(100%, 97vw);
+      padding: 0.7rem;
     }
     .video-card {
-      min-height: min(56vh, 420px);
+      min-height: clamp(220px, 52vh, 420px);
+    }
+  }
+
+  @media (max-width: 768px) and (orientation: portrait) {
+    .video-card {
+      aspect-ratio: 9 / 16;
+      min-height: clamp(320px, 72vh, 620px);
     }
   }
 
@@ -816,6 +828,9 @@
     </div>
   </div>
   <p class="video-note">Play this first, then move to the final photos page</p>
+  <button class="btn-next video-fullscreen-btn" id="video-fullscreen-btn" type="button">
+    Full screen ↗
+  </button>
   <p class="video-debug" id="video-debug"></p>
   <button class="btn-next" onclick="goTo(7)">Next → Final photos</button>
 </div>
@@ -1205,8 +1220,10 @@ setupCandles();
 
 function setupVideoHelp() {
   const video = document.getElementById('birthday-video');
+  const videoCard = document.querySelector('.video-card');
+  const fullscreenBtn = document.getElementById('video-fullscreen-btn');
   const debug = document.getElementById('video-debug');
-  if (!video || !debug) return;
+  if (!video || !debug || !videoCard || !fullscreenBtn) return;
 
   const show = (msg) => {
     debug.textContent = msg;
@@ -1229,6 +1246,25 @@ function setupVideoHelp() {
     }[code] || 'Unknown playback issue.';
     show(`Video failed to play. ${reason} Use .mp4 (H.264 video + AAC audio) and check the exact filename/path.`);
   });
+
+  const requestFullScreen = async () => {
+    const target = videoCard;
+    try {
+      if (target.requestFullscreen) {
+        await target.requestFullscreen();
+      } else if (target.webkitRequestFullscreen) {
+        target.webkitRequestFullscreen();
+      } else if (video.webkitEnterFullscreen) {
+        video.webkitEnterFullscreen();
+      }
+    } catch (err) {
+      show('Fullscreen was blocked by the browser. Tap the "Full screen" button directly or allow fullscreen for this page.');
+    }
+  };
+
+  video.addEventListener('click', requestFullScreen);
+  fullscreenBtn.addEventListener('click', requestFullScreen);
+  videoCard.addEventListener('dblclick', requestFullScreen);
 }
 
 setupVideoHelp();
