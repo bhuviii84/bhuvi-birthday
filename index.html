@@ -431,7 +431,8 @@
   #p-s5 .page-body {
     max-width: 760px;
   }
-  #birthday-video {
+  #birthday-video,
+  .birthday-video {
     width: min(1120px, 96vw);
     max-height: 72vh;
     height: auto;
@@ -465,14 +466,16 @@
   .video-debug.show { display: block; }
 
   @media (max-width: 768px) {
-    #birthday-video {
+    #birthday-video,
+    .birthday-video {
       width: min(100%, 97vw);
       max-height: 62vh;
     }
   }
 
   @media (max-width: 768px) and (orientation: portrait) {
-    #birthday-video {
+    #birthday-video,
+    .birthday-video {
       max-height: 70vh;
     }
   }
@@ -763,6 +766,12 @@
     Play this sweet birthday moment first,<br>
     <em>with warm candles, smiles, and cozy celebration vibes.</em>
   </div>
+  <video
+    class="birthday-video"
+    controls
+    preload="metadata"
+    src="WhatsApp Video 2026-04-07 at 7.42.02 PM.mp4"
+  ></video>
   <video
     id="birthday-video"
     controls
