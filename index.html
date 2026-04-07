@@ -589,9 +589,13 @@
     text-transform: uppercase;
     color: #8a5c3b;
   }
-  #candles-next[disabled] {
+  .btn-next[disabled] {
     opacity: 0.45;
     cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+  }
+  #candles-next[disabled] {
     border-color: rgba(138, 92, 59, 0.35);
     color: #8a5c3b;
   }
@@ -779,12 +783,12 @@
     poster="https://images.pexels.com/videos/4969884/free-video-4969884.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
     src="BHUVANA!.mp4"
   ></video>
-  <p class="video-note">Play this first, then move to the final photos page</p>
+  <p class="video-note" id="video-progress-note">Watch both videos fully to unlock the final photos page</p>
   <button class="btn-next video-fullscreen-btn" id="video-fullscreen-btn" type="button">
     Full screen ↗
   </button>
   <p class="video-debug" id="video-debug"></p>
-  <button class="btn-next" onclick="goTo(7)">Next → Final photos</button>
+  <button class="btn-next" id="video-next-btn" onclick="goTo(7)" disabled>Next → Final photos</button>
 </div>
 
 <div class="page" id="p-s6">
@@ -1171,10 +1175,24 @@ function setupCandles() {
 setupCandles();
 
 function setupVideoHelp() {
-  const video = document.getElementById('birthday-video');
+  const primaryVideo = document.getElementById('birthday-video');
+  const allVideos = Array.from(document.querySelectorAll('#p-s5 video'));
   const fullscreenBtn = document.getElementById('video-fullscreen-btn');
   const debug = document.getElementById('video-debug');
-  if (!video || !debug || !fullscreenBtn) return;
+  const nextBtn = document.getElementById('video-next-btn');
+  const progressNote = document.getElementById('video-progress-note');
+  if (!primaryVideo || !debug || !fullscreenBtn || !nextBtn || !allVideos.length) return;
+
+  const watched = new Set();
+
+  const renderProgress = () => {
+    const remaining = allVideos.length - watched.size;
+    nextBtn.disabled = remaining > 0;
+    if (!progressNote) return;
+    progressNote.textContent = remaining > 0
+      ? `Watch all videos fully to unlock final photos (${remaining} left)`
+      : 'All videos watched ✅ You can open the final photos page now.';
+  };
 
   const show = (msg) => {
     debug.textContent = msg;
@@ -1186,36 +1204,44 @@ function setupVideoHelp() {
     show('Tip: open this page using a local server (not file://). Example: run "python3 -m http.server" in this folder, then open http://localhost:8000.');
   }
 
-  video.addEventListener('canplay', hide);
-  video.addEventListener('error', () => {
-    const code = video.error ? video.error.code : 0;
-    const reason = {
-      1: 'Loading was interrupted.',
-      2: 'Network issue while fetching the video file.',
-      3: 'The video file appears corrupted or encoded in an unsupported codec.',
-      4: 'File/path/type not supported by this browser.',
-    }[code] || 'Unknown playback issue.';
-    show(`Video failed to play. ${reason} Use .mp4 (H.264 video + AAC audio) and check the exact filename/path.`);
+  allVideos.forEach((video, index) => {
+    video.addEventListener('canplay', hide);
+    video.addEventListener('ended', () => {
+      watched.add(index);
+      renderProgress();
+    });
+    video.addEventListener('error', () => {
+      const code = video.error ? video.error.code : 0;
+      const reason = {
+        1: 'Loading was interrupted.',
+        2: 'Network issue while fetching the video file.',
+        3: 'The video file appears corrupted or encoded in an unsupported codec.',
+        4: 'File/path/type not supported by this browser.',
+      }[code] || 'Unknown playback issue.';
+      show(`Video failed to play. ${reason} Use .mp4 (H.264 video + AAC audio) and check the exact filename/path.`);
+    });
   });
 
   const requestFullScreen = async () => {
-    const target = video;
+    const target = primaryVideo;
     try {
       if (target.requestFullscreen) {
         await target.requestFullscreen();
       } else if (target.webkitRequestFullscreen) {
         target.webkitRequestFullscreen();
-      } else if (video.webkitEnterFullscreen) {
-        video.webkitEnterFullscreen();
+      } else if (target.webkitEnterFullscreen) {
+        target.webkitEnterFullscreen();
       }
     } catch (err) {
       show('Fullscreen was blocked by the browser. Tap the "Full screen" button directly or allow fullscreen for this page.');
     }
   };
 
-  video.addEventListener('click', requestFullScreen);
+  primaryVideo.addEventListener('click', requestFullScreen);
   fullscreenBtn.addEventListener('click', requestFullScreen);
-  video.addEventListener('dblclick', requestFullScreen);
+  primaryVideo.addEventListener('dblclick', requestFullScreen);
+
+  renderProgress();
 }
 
 setupVideoHelp();
